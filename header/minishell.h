@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/16 15:43:22 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/17 00:00:01 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_cd(char **args, t_minishell *shell);
 
 // FT_ECHO
 
-void	ft_echo(char **args)
+void	ft_echo(char **args, t_minishell *shell);
 
 // UTILS
 
@@ -92,11 +92,23 @@ void	add_env_var(t_envp **env_list, const char *name, const char *value);
 
 // EXPAND_VARIABLE
 
+char	*expand_variable(char *var_name, t_minishell *shell);
+char	*expand_variable_in_quotes(char *arg,
+		t_minishell *shell, int *index);
 
+// VARIABLE_DATA_ACCESS
 
-// PIPE
+char	*get_variable_name(const char *arg, int *i);
+char	*get_variable_value(const char *name, t_minishell *shell);
 
+// HANDLE_QUOTES
 
+char	*process_single_quote(char *arg, int *index);
+char	*process_double_quote_end(char *arg, char *result, int *index, 
+		int start);
+char	*join_string_and_free(char *s1, char *s2);
+char	*process_double_quotes(char *arg, t_minishell *shell, int *index);
+char	*handle_quotes(char *arg, t_minishell *shell);
 
 // HER_DOCS
 
