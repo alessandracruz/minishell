@@ -6,7 +6,7 @@
 #    By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2023/11/15 19:16:04 by acastilh         ###   ########.fr        #
+#    Updated: 2023/11/17 00:05:10 by acastilh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,10 @@ SRCS		= main.c \
 			  print_envp.c \
 			  display_prompt.c \
 			  free_memory.c \
-			  print_error.c
+			  print_error.c \
+			  expand_variable/expand_variable.c \
+			  expand_variable/variable_data_access.c \
+			  expand_variable/handle_quotes.c
 
 SRCS		:= $(addprefix $(SRCDIR)/,$(SRCS))
 OBJS		:= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
