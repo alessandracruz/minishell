@@ -6,14 +6,19 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 22:26:59 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/16 23:58:58 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:00:28 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_variable_name(const char *arg, int *i)
+char	*get_variable_name(const char *arg, int start)
 {
+	int	end;
+
+	end = start;
+	while (arg[end] && (ft_isalnum(arg[end]) || arg[end] == '_'))
+		end++;
 	return (ft_substr(arg, start, end - start));
 }
 
