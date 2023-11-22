@@ -6,7 +6,7 @@
 #    By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2023/11/17 00:05:10 by acastilh         ###   ########.fr        #
+#    Updated: 2023/11/22 12:06:24 by acastilh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,11 @@ SRCDIR		= src
 OBJDIR		= obj
 SRCS		= main.c \
 			  builtins/ft_cd.c \
+			  builtins/ft_echo.c \
 			  external_commands/external_command.c \
 			  external_commands/execute_builtin.c \
 			  utils/utils.c \
+			  utils/string_utils.c \
 			  init_shell.c \
 			  print_envp.c \
 			  display_prompt.c \
@@ -27,7 +29,8 @@ SRCS		= main.c \
 			  print_error.c \
 			  expand_variable/expand_variable.c \
 			  expand_variable/variable_data_access.c \
-			  expand_variable/handle_quotes.c
+			  expand_variable/handle_quotes.c \
+			  expand_variable/quote_processing.c
 
 SRCS		:= $(addprefix $(SRCDIR)/,$(SRCS))
 OBJS		:= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
