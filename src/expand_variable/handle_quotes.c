@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 15:36:14 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/16 23:58:36 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:15:18 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*join_string_and_free(char *s1, char *s2)
 {
 	char	*new_str;
 
-	nex_str = ft_strjoin(s1, s2);
+	new_str = ft_strjoin(s1, s2);
 	free(s1);
 	free(s2);
 	return (new_str);
@@ -75,7 +75,7 @@ char	*process_double_quotes(char *arg, t_minishell *shell, int *index)
 
 	start = *index + 1;
 	i = start;
-	*result = NULL;
+	result = NULL;
 	while (arg[i] && arg[i] != '\"')
 	{
 		if (arg[i] == '$')
@@ -104,16 +104,17 @@ char	*handle_quotes(char *arg, t_minishell *shell)
 
 	result = ft_strdup("");
 	i = 0;
-	temp = result;
 	while (arg[i])
 	{
+		temp = result;
 		if (arg[i] == '\'')
 			result = process_single_quote(arg, &i);
 		else if (arg[i] == '\"')
-			result = process_double_quote(arg, shell, &i);
+			result = process_double_quotes(arg, shell, &i);
 		else
 		{
-			current_char[2] = {arg[i], '\0'};
+			current_char[0] = arg[i];
+			current_char[1] = '\0';
 			result = ft_strjoin(result, current_char);
 			free(temp);
 			i++;
