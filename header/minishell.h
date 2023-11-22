@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/17 00:00:01 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/21 18:03:14 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	*expand_variable_in_quotes(char *arg,
 
 // VARIABLE_DATA_ACCESS
 
-char	*get_variable_name(const char *arg, int *i);
+char	*get_variable_name(const char *arg, int start);
 char	*get_variable_value(const char *name, t_minishell *shell);
 
 // HANDLE_QUOTES
