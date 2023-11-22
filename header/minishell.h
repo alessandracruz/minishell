@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/21 18:03:14 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:07:32 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct cmd_node
 
 typedef struct s_minishell
 {
-	t_envp *l_envp;
+	t_envp	*l_envp;
 }t_minishell;
 
 // MAIN
@@ -89,12 +89,13 @@ t_envp	*get_env_var(const char *name, t_envp *env_list);
 void	update_env_var(const char *name, const char *value, t_envp **env_list);
 void	print_env_list(t_envp *env_list);
 void	add_env_var(t_envp **env_list, const char *name, const char *value);
+char	*join_string_and_free(char *s1, char *s2);
+char	*add_char_to_result(char *result, char c);
 
 // EXPAND_VARIABLE
 
 char	*expand_variable(char *var_name, t_minishell *shell);
-char	*expand_variable_in_quotes(char *arg,
-		t_minishell *shell, int *index);
+char	*expand_variable_in_quotes(char *arg, t_minishell *shell, int *index);
 
 // VARIABLE_DATA_ACCESS
 
@@ -103,33 +104,14 @@ char	*get_variable_value(const char *name, t_minishell *shell);
 
 // HANDLE_QUOTES
 
-char	*process_single_quote(char *arg, int *index);
-char	*process_double_quote_end(char *arg, char *result, int *index, 
-		int start);
-char	*join_string_and_free(char *s1, char *s2);
-char	*process_double_quotes(char *arg, t_minishell *shell, int *index);
 char	*handle_quotes(char *arg, t_minishell *shell);
 
-// HER_DOCS
+// QUOTE_PROCESSING
 
-
-
-// CMD_BUILTINS
-
-
-
-// CONFIG_CMD
-
-
-
-// COPY_ENVP
-
-
-
-// EXEC_CMD
-
-
-
-// EXECUTION
+char	*process_single_quote(char *arg, int *index);
+char	*process_double_quote_end(char *arg, char *result, int *index,
+			int start);
+char	*process_double_quotes(char *arg, t_minishell *shell, int *index);
+char	*process_quotes(char *arg, t_minishell *shell);
 
 #endif
