@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/22 12:07:32 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/23 00:11:39 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <termios.h>
 
 # define MAX_PATH_LENGHT 1024
+# define MAX_ARGS 256
 # define TRUE 1
 # define FALSE 0
 # define MSGERROR "(Minishell): syntax error near unexpected token `newline'\n"
@@ -44,9 +45,19 @@ typedef struct s_envp
 	struct s_envp	*next;
 }t_envp;
 
+typedef struct s_redirection
+{
+	char	*type;
+	char	*filename;
+}t_redirection;
+
 typedef struct cmd_node
 {
-    
+	char			*command;
+	char			*args[MAX_ARGS];
+	int				arg_count;
+	t_redirection	*input_redirection;
+	t_redirection	*output_redirection;
 }t_cmd_node;
 
 typedef struct s_minishell
@@ -113,5 +124,34 @@ char	*process_double_quote_end(char *arg, char *result, int *index,
 			int start);
 char	*process_double_quotes(char *arg, t_minishell *shell, int *index);
 char	*process_quotes(char *arg, t_minishell *shell);
+
+// PARSE
+
+// PARSE_INPUT
+
+t_cmd_node	*parse_input(char *input);
+
+// PARSE_REDIRECTION
+
+t_redirection	*parse_redirection(char **tokens, int *index);
+void	apply_output_redirections(t_cmd_node *cmd);
+void	apply_simple_input_redirection(t_cmd_node *cmd);
+void	apply_here_document(t_cmd_node *cmd);
+void	apply_input_redirections(t_cmd_node *cmd);
+
+// TOKENIZER
+
+int		is_delimiter(char c, char delimiter);
+int		count_tokens(char *input, char delimiter);
+char	**tokenize_input(char *input, char delimiter);
+void	parse_token(char **tokens, int *index, t_cmd_node *cmd);
+
+// SYNTAX_ANALYZER
+
+bool	is_redirection(char *token);
+void	process_redirection(char **tokens, int *index, t_cmd_node *cmd);
+bool	is_quote(char c);
+void	add_argument_to_command(t_cmd_node *cmd, char *arg);
+void	process_quotes_syntax(char **tokens, int *index, t_cmd_node *cmd);
 
 #endif
