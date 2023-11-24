@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 21:02:35 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/11 19:58:46 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/23 19:02:54 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*ft_strdup(const char *s)
 	return (dest);
 }
 
+/*
 char	*ft_strdup2(const char *s, int begin, int end)
 {
 	char	*dest;
@@ -54,7 +55,6 @@ char	*ft_strdup2(const char *s, int begin, int end)
 	return (dest);
 }
 
-/*
 #include <stdio.h>
 
 int main()
