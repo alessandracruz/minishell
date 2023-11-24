@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/23 00:11:39 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/23 23:14:50 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,26 @@ typedef struct cmd_node
 
 typedef struct s_minishell
 {
-	t_envp	*l_envp;
+	t_envp		*l_envp;
+	t_cmd_node	*current_cmd;
 }t_minishell;
+
+// SRC
+
+void	free_redirection(t_redirection *redir);
+void	free_cmd_node(t_cmd_node *cmd);
+void	free_env_list(t_envp *env_list);
+void	free_memory(t_minishell *shell);
+void	print_envp(char **envp);
+void	init_shell(t_minishell *shell, char **envp);
+void	add_env_from_entry(char *entry, t_envp **env_list);
+char	*display_prompt(void);
+void	free_arguments(char **arguments);
+void	print_error(const char *message);
 
 // MAIN
 
-void	print_envp(char **envp);
-void	init_shell(t_minishell *shell, char **envp);
-char	*display_prompt(void);
-void	free_arguments(char **arguments);
-void	free_env_list(t_envp *env_list);
-void	print_error(const char *message);
+int	main(int /* argc */, char ** /* argv */, char **envp);
 
 // EXECUÇAÕ DE COMANDOS EXTERNOS: external_commands
 
@@ -99,7 +108,7 @@ void	ft_echo(char **args, t_minishell *shell);
 t_envp	*get_env_var(const char *name, t_envp *env_list);
 void	update_env_var(const char *name, const char *value, t_envp **env_list);
 void	print_env_list(t_envp *env_list);
-void	add_env_var(t_envp **env_list, const char *name, const char *value);
+bool	add_env_var(t_envp **env_list, const char *name, const char *value);
 char	*join_string_and_free(char *s1, char *s2);
 char	*add_char_to_result(char *result, char c);
 
