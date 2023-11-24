@@ -42,7 +42,7 @@ int	main(int /* argc */, char ** /* argv */, char **envp)
 			printf("\n");
 			break ;
 		}
-		if (strcmp(input, "exit") == 0)
+		if (ft_strcmp(input, "exit") == 0)
 		{
 			free(input);
 			break ;
@@ -50,5 +50,6 @@ int	main(int /* argc */, char ** /* argv */, char **envp)
 		execute_command(input, &shell);
 		free(input);
 	}
+	free_memory(&shell);
 	return (0);
 }
