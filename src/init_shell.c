@@ -39,6 +39,11 @@ void	add_env_from_entry(char *entry, t_envp **env_list)
 			free(name);
 			free(value);
 		}
+		else
+		{
+			free(name);
+			free(value);
+		}
 	}
 }
 
@@ -48,6 +53,7 @@ void	init_shell(t_minishell *shell, char **envp)
 
 	i = 0;
 	shell->l_envp = NULL;
+	shell->current_cmd = NULL;
 	while (envp[i] != NULL)
 	{
 		add_env_from_entry(envp[i], &shell->l_envp);
