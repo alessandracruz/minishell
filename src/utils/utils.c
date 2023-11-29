@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:53:35 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/15 22:20:00 by acastilh         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:29:50 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,29 @@ void	update_env_var(const char *name, const char *value, t_envp **env_list)
 	}
 }
 
-void	add_env_var(t_envp **env_list, const char *name, const char *value)
+bool	add_env_var(t_envp **env_list, const char *name, const char *value)
 {
 	t_envp	*new_var;
 
 	new_var = malloc(sizeof(t_envp));
 	if (!new_var)
-		return ;
+		return (FALSE) ;
 	new_var->name = strdup(name);
 	if (!new_var->name)
 	{
 		free(new_var);
-		return ;
+		return (FALSE);
 	}
 	new_var->value = strdup(value);
 	if (!new_var->value)
 	{
 		free(new_var->name);
 		free(new_var);
-		return ;
+		return (FALSE);
 	}
 	new_var->next = *env_list;
 	*env_list = new_var;
+	return (TRUE);
 }
 
 void	print_env_list(t_envp *env_list)
