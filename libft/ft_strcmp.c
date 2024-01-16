@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 11:04:26 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/23 13:43:38 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:37:39 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int    ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (s1[i] != '\0' && s2[i] != '\0')
 	{
@@ -34,8 +34,7 @@ int main(void)
 {
 	char *s1 = "ABC";
 	char *s2 = "ABCD";
-	printf("ft_strcmp: %d\n", ft_strcmp(s1, s2));
-	printf("strcmp: %d\n", strcmp(s1, s2));
+	ft_printf("ft_strcmp: %d\n", ft_strcmp(s1, s2));
+	ft_printf("strcmp: %d\n", strcmp(s1, s2));
 }
 */
-

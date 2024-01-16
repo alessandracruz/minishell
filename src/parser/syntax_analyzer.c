@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_analyzer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 21:54:53 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/23 00:30:08 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:43:19 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	process_redirection(char **tokens, int *index, t_cmd_node *cmd)
 		cmd->input_redirection = redir;
 }
 
-bool is_quote(char c)
+bool	is_quote(char c)
 {
 	return (c == '\'' || c == '\"');
 }
@@ -40,13 +40,13 @@ void	add_argument_to_command(t_cmd_node *cmd, char *arg)
 {
 	if (cmd->arg_count >= MAX_ARGS)
 	{
-		print_error("Erro: maximum number of arguments exceeded.\n");
+		print_error("Erro: maximum number of arguments exceeded.\n", NULL);
 		return ;
 	}
 	cmd->args[cmd->arg_count] = ft_strdup(arg);
 	if (cmd->args[cmd->arg_count] == NULL)
 	{
-		print_error("Erro: fails to allocate memory to the argument.\n");
+		print_error("Erro: fails to allocate memory to the argument.\n", NULL);
 		return ;
 	}
 	cmd->arg_count++;

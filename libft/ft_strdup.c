@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 21:02:35 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/23 19:02:54 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:55:44 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,16 @@ int main()
     {
         if (strcmp(std_strdup_result, ft_strdup_result) == 0)
         {
-            printf("As strings são iguais!\n");
+            ft_printf("As strings são iguais!\n");
         }
         else
         {
-            printf("As strings são diferentes!\n");
+            ft_printf("As strings são diferentes!\n");
         }
     }
     else
     {
-        printf("Falha na alocação de memória.\n");
+        ft_printf("Falha na alocação de memória.\n");
     }
 
     // Liberando memória

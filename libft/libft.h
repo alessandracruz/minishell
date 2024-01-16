@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:26:15 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/23 13:49:19 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:56:00 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdint.h> 
+# include <stdarg.h>
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -56,4 +57,8 @@ void	*ft_calloc(size_t count, size_t size);
 int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
+int		ft_printf(const char *str, ...);
+size_t	ft_putchar(char c);
+size_t	ft_putstr(char *str);
+
 #endif

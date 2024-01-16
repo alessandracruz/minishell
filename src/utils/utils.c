@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:53:35 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/29 19:29:50 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:42:55 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool	add_env_var(t_envp **env_list, const char *name, const char *value)
 
 	new_var = malloc(sizeof(t_envp));
 	if (!new_var)
-		return (FALSE) ;
+		return (FALSE);
 	new_var->name = strdup(name);
 	if (!new_var->name)
 	{
@@ -76,7 +76,7 @@ void	print_env_list(t_envp *env_list)
 	current = env_list;
 	while (current != NULL)
 	{
-		printf("%s = %s\n", current->name, current->value);
+		ft_printf("%s = %s\n", current->name, current->value);
 		current = current->next;
 	}
 }

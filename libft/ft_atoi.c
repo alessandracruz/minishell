@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 17:53:10 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/11 19:36:21 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:55:44 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ int main()
     char *str;
 
     str = "    -2147483648";
-    printf("atoi: %d\n", atoi(str));
-    printf("ft_atoi: %d\n", ft_atoi(str));
+    ft_printf("atoi: %d\n", atoi(str));
+    ft_printf("ft_atoi: %d\n", ft_atoi(str));
 }*/

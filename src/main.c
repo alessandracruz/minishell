@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:36:48 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/15 22:07:32 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:41:27 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,15 @@ int	main(int /* argc */, char ** /* argv */, char **envp)
 	print_env_list(shell.l_envp);
 	home_env_test = get_env_var("HOME", shell.l_envp);
 	if (home_env_test != NULL)
-	{
-		printf("Teste HOME: %s\n", home_env_test->value);
-	}
+		ft_printf("Teste HOME: %s\n", home_env_test->value);
 	else
-	{
-		printf("Teste HOME falhou, variável não encontrada.\n");
-	}
+		ft_printf("Teste HOME falhou, variável não encontrada.\n");
 	while (TRUE)
 	{
 		input = display_prompt();
 		if (input == NULL)
 		{
-			printf("\n");
+			ft_printf("\n");
 			break ;
 		}
 		if (ft_strcmp(input, "exit") == 0)

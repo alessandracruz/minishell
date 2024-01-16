@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 19:35:35 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/12 19:48:58 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:37:08 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	ft_word_count(char const *s, char c)
 	return (count);
 }
 
-static char		*ft_extract_word(const char *s, char c, size_t *i)
+static char	*ft_extract_word(const char *s, char c, size_t *i)
 {
 	size_t	start;
 	size_t	end;
@@ -51,7 +51,7 @@ static char		*ft_extract_word(const char *s, char c, size_t *i)
 
 void	ft_free_split(char **array)
 {
-	size_t i;
+	size_t	i;
 
 	if (array)
 	{
@@ -64,7 +64,6 @@ void	ft_free_split(char **array)
 		free(array);
 	}
 }
-
 
 char	**ft_split(char const *s, char c)
 {
@@ -94,7 +93,7 @@ char	**ft_split(char const *s, char c)
 	return (result);
 }
 
-#include "libft.h"
+/* #include "libft.h"
 #include <stdio.h>
 
 int main(void)
@@ -107,7 +106,7 @@ int main(void)
         size_t i = 0;
         while (result[i])
         {
-            printf("Palavra %zu: %s\n", i + 1, result[i]);
+            ft_printf("Palavra %zu: %s\n", i + 1, result[i]);
             i++;
         }
 
@@ -116,13 +115,11 @@ int main(void)
     }
     else
     {
-        printf("Erro ao dividir a string.\n");
+        ft_printf("Erro ao dividir a string.\n");
     }
 
     return 0;
-}
-
-
+} */
 /*
 #include "libft.h"
 #include <stdio.h>

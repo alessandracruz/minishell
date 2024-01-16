@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:50:49 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/16 23:52:43 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:44:58 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **args, t_minishell *shell)
+bool	ft_echo(char **args, t_minishell *shell)
 {
 	int		newline;
 	int		i;
@@ -30,13 +30,14 @@ void	ft_echo(char **args, t_minishell *shell)
 		processed_arg = handle_quotes(args[i], shell);
 		if (processed_arg)
 		{
-			printf("%s", processed_arg);
+			ft_printf("%s", processed_arg);
 			free(processed_arg);
 		}
-		if (arg[i + 1])
-			printf(" ");
+		if (args[i + 1])
+			ft_printf(" ");
 		i++;
 	}
 	if (newline)
-		printf("\n");
+		ft_printf("\n");
+	return (true);
 }

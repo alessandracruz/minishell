@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 21:41:59 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/23 00:29:22 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:44:31 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_delimiter(char c, char delimiter)
+int	is_delimiter(char c, char delimiter)
 {
 	return (c == delimiter || c == '\0');
 }
@@ -38,7 +38,7 @@ int	count_tokens(char *input, char delimiter)
 	if (in_token)
 		return (count + 1);
 	else
-		return (count);	
+		return (count);
 }
 
 char	**tokenize_input(char *input, char delimiter)

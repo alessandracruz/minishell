@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:54:46 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/15 19:38:53 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:55:44 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_envp(char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		printf("%s\n", envp[i]);
+		ft_printf("%s\n", envp[i]);
 		i++;
 	}
 }

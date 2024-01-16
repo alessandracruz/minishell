@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/15 19:00:25 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:42:38 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ void	execute_external_command(char **arguments)
 	{
 		if (execvp(arguments[0], arguments) == -1)
 		{
-			print_error("Error executing command");
+			print_error("Error executing command", NULL);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else if (pid > 0)
 		waitpid(pid, &status, 0);
 	else
-		print_error("Error forking process");
+		print_error("Error forking process", NULL);
 }
 
 void	free_arguments(char **arguments)
@@ -41,14 +41,15 @@ void	free_arguments(char **arguments)
 	{
 		free(arguments[i]);
 		i++;
-	}	free(arguments);
+	}
+	free(arguments);
 }
 
 void	execute_command(char *input, t_minishell *shell)
 {
 	char	**arguments;
 
-	arguments = ft_split(input, ' ');
+	arguments = ft_split_except(input, ' ');
 	if (arguments[0] == NULL)
 	{
 		free_arguments(arguments);

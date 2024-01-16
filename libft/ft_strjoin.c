@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 18:37:44 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/11 20:54:29 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:55:22 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,27 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
-	size_t	size;
-	size_t	i1;
-	size_t	i2;
+	size_t	index;
+	size_t	counter;
 
-	if (!s1 || !s2)
+	if (!s1 && !s2)
 		return (NULL);
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	str = malloc(sizeof(char) * size);
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (str == NULL)
 		return (NULL);
-	i1 = 0;
-	while (s1[i1])
+	index = 0;
+	if (s1)
 	{
-		str[i1] = s1[i1];
-		i1++;
+		while (*s1)
+			str[index++] = *s1++;
 	}
-	i2 = 0;
-	while (s2[i2])
+	counter = -1;
+	if (s2)
 	{
-		str[i1 + i2] = s2[i2];
-		i2++;
+		while (s2[++counter])
+			str[index + counter] = s2[counter];
 	}
-	str[i1 + i2] = '\0';
+	str[index + counter] = '\0';
 	return (str);
 }
 
@@ -61,16 +59,16 @@ int main()
     {
         if (strcmp(std_strjoin_result, ft_strjoin_result) == 0)
         {
-            printf("As strings são iguais!\n");
+            ft_printf("As strings são iguais!\n");
         }
         else
         {
-            printf("As strings são diferentes!\n");
+            ft_printf("As strings são diferentes!\n");
         }
     }
     else
     {
-        printf("Falha na alocação de memória.\n");
+        ft_printf("Falha na alocação de memória.\n");
     }
 
     // Liberando memória

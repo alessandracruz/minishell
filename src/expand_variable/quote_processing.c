@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote_processing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:08:56 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/22 12:16:08 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 10:04:04 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*process_single_quote(char *arg, int *index)
 	}
 	else
 	{
-		print_error("Single quotes not closed");
+		print_error("Single quotes not closed", NULL);
 		result = NULL;
 	}
 	return (result);
@@ -49,7 +49,7 @@ char	*process_double_quote_end(char *arg, char *result, int *index,
 	}
 	else
 	{
-		print_error("Double quotes not closed");
+		print_error("Double quotes not closed", NULL);
 		free(result);
 		result = NULL;
 	}
@@ -73,7 +73,7 @@ char	*process_double_quotes(char *arg, t_minishell *shell, int *index)
 			expanded = expand_variable_in_quotes(arg, shell, &i);
 			if (!expanded)
 			{
-				print_error("Variable expansion error");
+				print_error("Variable expansion error", NULL);
 				free(result);
 				return (NULL);
 			}

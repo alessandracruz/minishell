@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 18:45:23 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/12 18:59:15 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:55:44 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ int main(void)
 	int number2 = 0;
 	int number3 = 156;
 	int number4 = -55;
-	printf("str: %s\n", ft_itoa(number));
-	printf("str: %s\n", ft_itoa(number1));
-	printf("str: %s\n", ft_itoa(number2));
-	printf("str: %s\n", ft_itoa(number3));
-	printf("str: %s\n", ft_itoa(number4));
+	ft_printf("str: %s\n", ft_itoa(number));
+	ft_printf("str: %s\n", ft_itoa(number1));
+	ft_printf("str: %s\n", ft_itoa(number2));
+	ft_printf("str: %s\n", ft_itoa(number3));
+	ft_printf("str: %s\n", ft_itoa(number4));
 }
 */
 

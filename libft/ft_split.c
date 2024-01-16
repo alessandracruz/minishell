@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 19:11:15 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/15 17:19:53 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:55:44 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ int main(void)
         // Iterando sobre o resultado e imprimindo as palavras
         for (int i = 0; result[i] != NULL; ++i)
         {
-            printf("Palavra %d: %s\n", i + 1, result[i]);
+            ft_printf("Palavra %d: %s\n", i + 1, result[i]);
             free(result[i]); // Liberando a memória alocada para cada palavra
         }
         free(result); // Liberando a memória alocada para o array de ponteiros
     }
     else
-        printf("A função ft_split falhou.\n");
+        ft_printf("A função ft_split falhou.\n");
     return (0);
 }
 */

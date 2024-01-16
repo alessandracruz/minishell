@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+         #
+#    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2023/11/22 23:11:25 by acastilh         ###   ########.fr        #
+#    Updated: 2024/01/16 11:13:52 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS		= main.c \
 			  external_commands/execute_builtin.c \
 			  utils/utils.c \
 			  utils/string_utils.c \
+			  utils/ft_split_except.c \
 			  init_shell.c \
 			  print_envp.c \
 			  display_prompt.c \
