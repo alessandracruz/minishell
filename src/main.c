@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:36:48 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/16 16:41:27 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:41:07 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int /* argc */, char ** /* argv */, char **envp)
 			free(input);
 			break ;
 		}
-		execute_command(input, &shell);
+		execute_command(input, &shell, envp);
 		free(input);
 	}
 	free_memory(&shell);

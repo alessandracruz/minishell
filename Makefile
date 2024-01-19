@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/01/16 11:13:52 by matlopes         ###   ########.fr        #
+#    Updated: 2024/01/19 12:38:20 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,12 +30,12 @@ SRCS		= main.c \
 			  print_error.c \
 			  expand_variable/expand_variable.c \
 			  expand_variable/variable_data_access.c \
-			  expand_variable/handle_quotes.c \
-			  expand_variable/quote_processing.c \
 			  parser/parse_input.c \
 			  parser/parse_redirection.c \
 			  parser/tokenizer.c \
-			  parser/syntax_analyzer.c
+			  parser/syntax_analyzer.c \
+			  pipex/pipex.c \
+			  pipex/pipex_utils.c 
 
 SRCS		:= $(addprefix $(SRCDIR)/,$(SRCS))
 OBJS		:= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
