@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/19 12:57:44 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/01/22 14:47:11 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@ typedef struct cmd_node
 	t_redirection	*output_redirection;
 }t_cmd_node;
 
+typedef struct execute
+{
+	char	**cmds;
+	int		cmds_size;
+	int		hasFiles[2];
+	int		fd_files[2];
+}t_execute;
+
 typedef struct s_minishell
 {
 	t_envp		*l_envp;
@@ -91,7 +99,7 @@ bool			execute_builtin(char **args, t_minishell *shell);
 
 // PIPEX
 
-void			ft_pipex(char *argv[], int argc, int *hasFiles, t_minishell *shell, char *envp[]);
+void			ft_pipex(t_execute *execute, t_minishell *shell, char *envp[]);
 void			ft_execute_cmd(char *argv, t_minishell *shell, char *envp[]);
 
 // BUILTINS

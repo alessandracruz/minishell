@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/19 13:16:48 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/01/22 15:01:35 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	free_arguments(char **arguments)
 	free(arguments);
 }
 
-int		arguments_counter(char **argv)
+int	arguments_counter(char **argv)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	while (argv[index])
@@ -57,20 +57,34 @@ int		arguments_counter(char **argv)
 
 void	execute_command(char *input, t_minishell *shell, char **envp)
 {
-	char	**argv;
-	int		argc;
-	int		hasFiles[2];
+	t_execute	execute;
+	int			check;
 
-	hasFiles[0] = 0;
-	hasFiles[1] = 0;
-	if (ft_strchr(input, '<'))
-		hasFiles[0] = 1;
-	if (ft_strchr(input, '>'))
-		hasFiles[1] = 1;
-	argv = ft_split_trim(input, "<|>", " ");
-	if (argv[0] == NULL)
-		return (free_arguments(argv));
-	argc = arguments_counter(argv);
-	ft_pipex(argv, argc, hasFiles, shell, envp);
-	free_arguments(argv);
+	execute.hasFiles[0] = 0;
+	execute.hasFiles[1] = 0;
+	execute.fd_files[0] = 0;
+	execute.fd_files[1] = 1;
+	check = fork();
+	if (!check)
+	{
+		execute.cmds = ft_split_trim(input, "<|>", " ");
+		if (execute.cmds[0] == NULL)
+			return (free_arguments(execute.cmds));
+		execute.cmds_size = arguments_counter(execute.cmds);
+		if (ft_strchr(input, '<'))
+		{
+			execute.hasFiles[0] = 1;
+			execute.fd_files[0] = open(execute.cmds[0], O_RDONLY);
+		}
+		if (ft_strchr(input, '>'))
+		{
+			execute.hasFiles[1] = 1;
+			execute.fd_files[1] = open(execute.cmds[--execute.cmds_size],
+					O_CREAT | O_RDWR | O_TRUNC, 00700);
+		}
+		ft_pipex(&execute, shell, envp);
+		free_arguments(execute.cmds);
+		exit(EXIT_SUCCESS);
+	}
+	waitpid(-1, NULL, 0);
 }

@@ -6,13 +6,13 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:41:41 by matlopes          #+#    #+#             */
-/*   Updated: 2024/01/19 11:33:43 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/01/22 12:42:53 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_free_arrays(char *array[])
+static char	**ft_free_arrays(char *array[])
 {
 	int	counter;
 
@@ -20,7 +20,7 @@ static int	ft_free_arrays(char *array[])
 	while (array[counter])
 		free(array[counter++]);
 	free(array);
-	return (-1);
+	return (NULL);
 }
 
 static int	ft_how_many_splits(char const *s, char *c)
@@ -36,7 +36,7 @@ static int	ft_how_many_splits(char const *s, char *c)
 	return (split);
 }
 
-static int	ft_put_string(char **pointer, int split, char const *s, char *c, char *set)
+static int	ft_put_string(char **pointer, char const *s, char *c, char *set)
 {
 	char	*temp;
 	int		start;
@@ -52,11 +52,11 @@ static int	ft_put_string(char **pointer, int split, char const *s, char *c, char
 		size++;
 	temp = ft_substr(s, start, size);
 	if (!temp)
-		return (ft_free_arrays(pointer));
-	pointer[split] = ft_strtrim(temp, set);
+		return (-1);
+	*pointer = ft_strtrim(temp, set);
 	free(temp);
-	if (!pointer[split])
-		return (ft_free_arrays(pointer));
+	if (!*pointer)
+		return (-1);
 	return (start + size);
 }
 
@@ -76,9 +76,9 @@ char	**ft_split_trim(char const *s, char *c, char *set)
 		return (NULL);
 	while (++split < max && *s)
 	{
-		counter = ft_put_string(pointer, split, s, c, set);
+		counter = ft_put_string(&pointer[split], s, c, set);
 		if (counter == -1)
-			return (NULL);
+			return (ft_free_arrays(pointer));
 		s += counter;
 	}
 	pointer[split] = NULL;
