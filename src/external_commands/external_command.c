@@ -6,13 +6,13 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/16 16:42:38 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/01/22 15:01:35 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_external_command(char **arguments)
+/* void	execute_external_command(char **arguments)
 {
 	pid_t	pid;
 	int		status;
@@ -30,7 +30,7 @@ void	execute_external_command(char **arguments)
 		waitpid(pid, &status, 0);
 	else
 		print_error("Error forking process", NULL);
-}
+} */
 
 void	free_arguments(char **arguments)
 {
@@ -45,21 +45,46 @@ void	free_arguments(char **arguments)
 	free(arguments);
 }
 
-void	execute_command(char *input, t_minishell *shell)
+int	arguments_counter(char **argv)
 {
-	char	**arguments;
+	int	index;
 
-	arguments = ft_split_except(input, ' ');
-	if (arguments[0] == NULL)
+	index = 0;
+	while (argv[index])
+		index++;
+	return (index);
+}
+
+void	execute_command(char *input, t_minishell *shell, char **envp)
+{
+	t_execute	execute;
+	int			check;
+
+	execute.hasFiles[0] = 0;
+	execute.hasFiles[1] = 0;
+	execute.fd_files[0] = 0;
+	execute.fd_files[1] = 1;
+	check = fork();
+	if (!check)
 	{
-		free_arguments(arguments);
-		return ;
+		execute.cmds = ft_split_trim(input, "<|>", " ");
+		if (execute.cmds[0] == NULL)
+			return (free_arguments(execute.cmds));
+		execute.cmds_size = arguments_counter(execute.cmds);
+		if (ft_strchr(input, '<'))
+		{
+			execute.hasFiles[0] = 1;
+			execute.fd_files[0] = open(execute.cmds[0], O_RDONLY);
+		}
+		if (ft_strchr(input, '>'))
+		{
+			execute.hasFiles[1] = 1;
+			execute.fd_files[1] = open(execute.cmds[--execute.cmds_size],
+					O_CREAT | O_RDWR | O_TRUNC, 00700);
+		}
+		ft_pipex(&execute, shell, envp);
+		free_arguments(execute.cmds);
+		exit(EXIT_SUCCESS);
 	}
-	if (execute_builtin(arguments, shell))
-	{
-		free_arguments(arguments);
-		return ;
-	}
-	execute_external_command(arguments);
-	free_arguments(arguments);
+	waitpid(-1, NULL, 0);
 }
