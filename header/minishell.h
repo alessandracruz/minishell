@@ -84,7 +84,6 @@ void			print_envp(char **envp);
 void			init_shell(t_minishell *shell, char **envp);
 void			add_env_from_entry(char *entry, t_envp **env_list);
 char			*display_prompt(void);
-void			free_arguments(char **arguments);
 void			print_error(const char *message, const char *error);
 
 // MAIN
@@ -94,11 +93,7 @@ int				main(int /* argc */, char ** /* argv */, char **envp);
 // EXECUÇAÕ DE COMANDOS EXTERNOS: external_commands
 
 void			execute_command(char *input, t_minishell *shell, char **envp);
-void			execute_external_command(char **arguments);
 bool			execute_builtin(char **args, t_minishell *shell);
-
-// PIPEX
-
 void			ft_pipex(t_execute *execute, t_minishell *shell, char *envp[]);
 void			ft_execute_cmd(char *argv, t_minishell *shell, char *envp[]);
 
@@ -118,6 +113,8 @@ bool			ft_echo(char **args, t_minishell *shell);
 
 // UTILS
 
+void			free_arguments(char **arguments);
+int				arguments_counter(char **argv);
 t_envp			*get_env_var(const char *name, t_envp *env_list);
 void			update_env_var(const char *name, const char *value,
 					t_envp **env_list);

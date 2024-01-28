@@ -12,16 +12,6 @@
 
 #include "minishell.h"
 
-static void	ft_free_arrays(char *array[])
-{
-	int	counter;
-
-	counter = 0;
-	while (array[counter])
-		free(array[counter++]);
-	free(array);
-}
-
 static int	ft_check_quote(char const *s)
 {
 	int		counter;
@@ -79,10 +69,7 @@ static int	ft_put_string(char **pointer, int split, char const *s, char c)
 	}
 	pointer[split] = ft_substr(s, start, size - check);
 	if (!pointer[split])
-	{
-		ft_free_arrays(pointer);
-		return (-1);
-	}
+		return (ft_free_arrays(pointer));
 	return (size);
 }
 

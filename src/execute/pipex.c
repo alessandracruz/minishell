@@ -38,10 +38,10 @@ void	ft_pipex_primary(char *cmd, t_minishell *shell, char *envp[])
 void	ft_pipex_secondary(char *cmd, t_execute *execute, t_minishell *shell,
 	char *envp[])
 {
-	if (execute->hasFiles[0])
+	if (execute->fd_files[0] != 0)
 		close(execute->fd_files[0]);
 	dup2(execute->fd_files[1], 1);
-	if (execute->hasFiles[1])
+	if (execute->fd_files[1] != 1)
 		close(execute->fd_files[1]);
 	ft_execute_cmd(cmd, shell, envp);
 	exit(EXIT_SUCCESS);
@@ -54,7 +54,7 @@ void	ft_pipex(t_execute *execute, t_minishell *shell, char *envp[])
 	pid_t	*child_pids;
 
 	child_pids = malloc(sizeof(pid_t) * (execute->cmds_size));
-	counter = execute->hasFiles[0] - 1;
+	counter = -1;
 	dup2(execute->fd_files[0], 0);
 	while (++counter < execute->cmds_size)
 	{
@@ -70,7 +70,7 @@ void	ft_pipex(t_execute *execute, t_minishell *shell, char *envp[])
 				child_pids[counter] = pid;
 		}
 	}
-	counter = execute->hasFiles[0] - 1;
+	counter = -1;
 	while (++counter < execute->cmds_size)
 		waitpid(child_pids[counter], NULL, 0);
 	free(child_pids);

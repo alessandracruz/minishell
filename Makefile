@@ -18,9 +18,12 @@ OBJDIR		= obj
 SRCS		= main.c \
 			  builtins/ft_cd.c \
 			  builtins/ft_echo.c \
-			  external_commands/external_command.c \
-			  external_commands/execute_builtin.c \
+			  execute/execute_command.c \
+			  execute/execute_builtin.c \
+			  execute/pipex.c \
+			  execute/pipex_utils.c \
 			  utils/utils.c \
+			  utils/array_utils.c \
 			  utils/string_utils.c \
 			  utils/ft_split_except.c \
 			  init_shell.c \
@@ -34,8 +37,6 @@ SRCS		= main.c \
 			  parser/parse_redirection.c \
 			  parser/tokenizer.c \
 			  parser/syntax_analyzer.c \
-			  pipex/pipex.c \
-			  pipex/pipex_utils.c 
 
 SRCS		:= $(addprefix $(SRCDIR)/,$(SRCS))
 OBJS		:= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)

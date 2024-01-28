@@ -15,7 +15,7 @@
 void	change_directory(const char *path)
 {
 	if (chdir(path) == -1)
-		print_error("cd error:", strerror(errno));
+		print_error("cd error", strerror(errno));
 }
 
 void	handle_home_directory(t_minishell *shell)
@@ -24,7 +24,7 @@ void	handle_home_directory(t_minishell *shell)
 
 	home_env = get_env_var("HOME", shell->l_envp);
 	if (home_env == NULL || home_env->value == NULL)
-		print_error("cd error: HOME not set", NULL);
+		print_error("cd error", "HOME not set");
 	else
 		change_directory(home_env->value);
 }
@@ -35,7 +35,7 @@ void	handle_oldpwd_directory(t_minishell *shell)
 
 	oldpwd_env = get_env_var("OLDPWD", shell->l_envp);
 	if (oldpwd_env == NULL || oldpwd_env->value == NULL)
-		print_error("cd: OLDPWD not set", NULL);
+		print_error("cd", "OLDPWD not set");
 	else
 	{
 		ft_printf("%s\n", oldpwd_env->value);

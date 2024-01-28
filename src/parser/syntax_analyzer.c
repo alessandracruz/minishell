@@ -40,13 +40,13 @@ void	add_argument_to_command(t_cmd_node *cmd, char *arg)
 {
 	if (cmd->arg_count >= MAX_ARGS)
 	{
-		print_error("Erro: maximum number of arguments exceeded.\n", NULL);
+		print_error("maximum number of arguments exceeded.", NULL);
 		return ;
 	}
 	cmd->args[cmd->arg_count] = ft_strdup(arg);
 	if (cmd->args[cmd->arg_count] == NULL)
 	{
-		print_error("Erro: fails to allocate memory to the argument.\n", NULL);
+		print_error("fails to allocate memory to the argument.", NULL);
 		return ;
 	}
 	cmd->arg_count++;

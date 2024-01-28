@@ -12,47 +12,36 @@
 
 #include "minishell.h"
 
-/* void	execute_external_command(char **arguments)
+int	get_cmds(char *input, t_execute *execute)
 {
-	pid_t	pid;
-	int		status;
+	char *temp;
+	char *file;
 
-	pid = fork();
-	if (pid == 0)
+	execute->fd_files[0] = 0;
+	execute->fd_files[1] = 1;
+	execute->cmds = ft_split_trim(input, "<|>", " ");
+	if (execute->cmds[0] == NULL)
+		return (ft_free_arrays(execute->cmds));
+	execute->cmds_size = arguments_counter(execute->cmds);
+	if (ft_strchr(input, '<'))
 	{
-		if (execvp(arguments[0], arguments) == -1)
+		temp = execute->cmds[0];
+		file = ft_substr(temp, 0, ft_strlen(temp) - ft_strlen(ft_strchr(temp, ' ')));
+		execute->fd_files[0] = open(file, O_RDONLY);
+		if (execute->fd_files[0] == -1)
 		{
-			print_error("Error executing command", NULL);
-			exit(EXIT_FAILURE);
+			print_error(file, "No such file or directory");
+			return (-1);
 		}
+		execute->cmds[0] = ft_substr(temp, ft_strlen(file) + 1, ft_strlen(temp) - (ft_strlen(file) + 1));
+		free(temp);
 	}
-	else if (pid > 0)
-		waitpid(pid, &status, 0);
-	else
-		print_error("Error forking process", NULL);
-} */
-
-void	free_arguments(char **arguments)
-{
-	int	i;
-
-	i = 0;
-	while (arguments[i])
+	if (ft_strchr(input, '>'))
 	{
-		free(arguments[i]);
-		i++;
+		execute->fd_files[1] = open(execute->cmds[--execute->cmds_size],
+				O_CREAT | O_RDWR | O_TRUNC, 00700);
 	}
-	free(arguments);
-}
-
-int	arguments_counter(char **argv)
-{
-	int	index;
-
-	index = 0;
-	while (argv[index])
-		index++;
-	return (index);
+	return (0);
 }
 
 void	execute_command(char *input, t_minishell *shell, char **envp)
@@ -60,28 +49,11 @@ void	execute_command(char *input, t_minishell *shell, char **envp)
 	t_execute	execute;
 	int			check;
 
-	execute.hasFiles[0] = 0;
-	execute.hasFiles[1] = 0;
-	execute.fd_files[0] = 0;
-	execute.fd_files[1] = 1;
+	if (get_cmds(input, &execute) == -1)
+		return ;
 	check = fork();
 	if (!check)
 	{
-		execute.cmds = ft_split_trim(input, "<|>", " ");
-		if (execute.cmds[0] == NULL)
-			return (free_arguments(execute.cmds));
-		execute.cmds_size = arguments_counter(execute.cmds);
-		if (ft_strchr(input, '<'))
-		{
-			execute.hasFiles[0] = 1;
-			execute.fd_files[0] = open(execute.cmds[0], O_RDONLY);
-		}
-		if (ft_strchr(input, '>'))
-		{
-			execute.hasFiles[1] = 1;
-			execute.fd_files[1] = open(execute.cmds[--execute.cmds_size],
-					O_CREAT | O_RDWR | O_TRUNC, 00700);
-		}
 		ft_pipex(&execute, shell, envp);
 		free_arguments(execute.cmds);
 		exit(EXIT_SUCCESS);

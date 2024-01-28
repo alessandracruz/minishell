@@ -12,17 +12,6 @@
 
 #include "minishell.h"
 
-static int	ft_free_arrays(char *array[])
-{
-	int	counter;
-
-	counter = 0;
-	while (array[counter])
-		free(array[counter++]);
-	free(array);
-	return (-1);
-}
-
 void	ft_error_msg(char *str)
 {
 	perror(str);

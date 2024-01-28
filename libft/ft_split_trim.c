@@ -12,14 +12,9 @@
 
 #include "libft.h"
 
-static char	**ft_free_arrays(char *array[])
+static char	**free_arrays_return (char **pointer)
 {
-	int	counter;
-
-	counter = 0;
-	while (array[counter])
-		free(array[counter++]);
-	free(array);
+	ft_free_arrays(pointer);
 	return (NULL);
 }
 
@@ -78,7 +73,7 @@ char	**ft_split_trim(char const *s, char *c, char *set)
 	{
 		counter = ft_put_string(&pointer[split], s, c, set);
 		if (counter == -1)
-			return (ft_free_arrays(pointer));
+			return (free_arrays_return(pointer));
 		s += counter;
 	}
 	pointer[split] = NULL;
