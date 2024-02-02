@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:36:48 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/19 12:41:07 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:57:46 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 
 signal_number = 0;*/
 
-int	main(int /* argc */, char ** /* argv */, char **envp)
+int	main(int argc, char ** argv, char **envp)
 {
 	char		*input;
 	t_minishell	shell;
 	t_envp		*home_env_test;
 
+	(void)argc;
+	(void)argv;
 	print_envp(envp);
 	init_shell(&shell, envp);
 	print_env_list(shell.l_envp);

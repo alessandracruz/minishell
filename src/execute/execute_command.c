@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   external_command.c                                 :+:      :+:    :+:   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/22 15:01:35 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/02 12:58:08 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,20 @@ int	get_cmds(char *input, t_execute *execute)
 void	execute_command(char *input, t_minishell *shell, char **envp)
 {
 	t_execute	execute;
-	int			check;
+	int			pid;
+	char		**cmd;
 
 	if (get_cmds(input, &execute) == -1)
 		return ;
-	check = fork();
-	if (!check)
+	if (execute.cmds_size == 1 && is_builtin(execute.cmds[execute.cmds_size - 1]))
+	{
+		cmd = ft_split_except(execute.cmds[execute.cmds_size - 1], ' ');
+		execute_builtin(cmd, shell);
+		free_arguments(cmd);
+		return ;
+	}
+	pid = fork();
+	if (!pid)
 	{
 		ft_pipex(&execute, shell, envp);
 		free_arguments(execute.cmds);

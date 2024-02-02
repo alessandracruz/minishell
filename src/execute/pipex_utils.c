@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:43 by matlopes          #+#    #+#             */
-/*   Updated: 2024/01/19 12:55:03 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:05:29 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void	ft_execute_cmd(char *argv, t_minishell *shell, char *envp[])
 		ft_free_arrays(cmd);
 		exit(EXIT_FAILURE);
 	}
+	exit(EXIT_SUCCESS);
 }
