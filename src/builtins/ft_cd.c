@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
+/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 16:17:55 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/16 12:02:08 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:39:39 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,7 @@ void	change_directory(const char *path)
 		print_error("cd error", strerror(errno));
 }
 
-void	handle_home_directory(t_minishell *shell)
-{
-	t_envp	*home_env;
 
-	home_env = get_env_var("HOME", shell->l_envp);
-	if (home_env == NULL || home_env->value == NULL)
-		print_error("cd error", "HOME not set");
-	else
-		change_directory(home_env->value);
-}
-
-void	handle_oldpwd_directory(t_minishell *shell)
-{
-	t_envp	*oldpwd_env;
-
-	oldpwd_env = get_env_var("OLDPWD", shell->l_envp);
-	if (oldpwd_env == NULL || oldpwd_env->value == NULL)
-		print_error("cd", "OLDPWD not set");
-	else
-	{
-		ft_printf("%s\n", oldpwd_env->value);
-		change_directory(oldpwd_env->value);
-	}
-}
 
 void	update_pwd_oldpwd(t_minishell *shell, char *old_dir)
 {
@@ -59,17 +36,23 @@ void	update_pwd_oldpwd(t_minishell *shell, char *old_dir)
 bool	ft_cd(char **args, t_minishell *shell)
 {
 	char	old_dir[MAX_PATH_LENGHT];
+	char   *path_expanded;
 
 	if (getcwd(old_dir, sizeof(old_dir)) == NULL)
 	{
 		perror("cd error: Error retrieving current directory");
 		return (true);
 	}
-	if (args[1] == NULL || args[1][0] == '\0')
+	if (args[1] == NULL || args[1][0] == '\0' || ft_strcmp(args[1], "~") == 0)
 		handle_home_directory(shell);
-	else if (strcmp(args[1], "-") == 0)
+	else if (ft_strcmp(args[1], "-") == 0)
 		handle_oldpwd_directory(shell);
 	else
-		change_directory(args[1]);
+	{
+		path_expanded = expand_tilde(args[1], shell);
+		change_directory(path_expanded);
+		free(path_expanded);
+	}
+	update_pwd_oldpwd(shell, old_dir);
 	return (true);
 }
