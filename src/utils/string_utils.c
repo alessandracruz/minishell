@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:53:39 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/22 12:15:30 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:28:39 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ char	*join_string_and_free(char *s1, char *s2)
 	char	*new_str;
 
 	new_str = ft_strjoin(s1, s2);
-	free(s1);
-	free(s2);
+	if (s1)
+		free(s1);
+	/*if (s2)
+		free(s2);*/
 	return (new_str);
 }
 
