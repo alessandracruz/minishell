@@ -60,12 +60,15 @@ typedef struct cmd_node
 	t_redirection	*output_redirection;
 }t_cmd_node;
 
-typedef struct execute
+typedef struct s_execute
 {
 	char	**cmds;
-	int		cmds_size;
+	pid_t	*pids;
+	int		current;
+	int		amount;
 	int		hasFiles[2];
 	int		fd_files[2];
+	int		fds[2];
 }t_execute;
 
 typedef struct s_minishell

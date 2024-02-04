@@ -12,63 +12,62 @@
 
 #include "minishell.h"
 
-void	ft_pipex_primary(char *cmd, t_minishell *shell, char *envp[], pid_t	*pid)
+void	pipex_wait(t_execute *execute)
 {
-	int		fd[2];
-	pid_t	check;
+	int	counter;
+	int	status;
 
-	pipe(fd);
-	check = fork();
-	if (check == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], 1);
-		close(fd[1]);
-		ft_execute_cmd(cmd, shell, envp);
-	}
-	else
-	{
-		*pid = check;
-		close(fd[1]);
-		dup2(fd[0], 0);
-		close(fd[0]);
-	}
+	counter = -1;
+	while (++counter < execute->amount)
+		waitpid(execute->pids[counter], &status, 0);
+	free(execute->pids);
 }
 
-void	ft_pipex_secondary(t_execute *execute, t_minishell *shell, char *envp[], pid_t	*pid)
+void	pipex_primary(t_execute *execute, t_minishell *shell, char *envp[])
 {
-	pid_t	check;
-	check = fork();
-	if (check == 0)
+	execute->pids[execute->current] = fork();
+	if (execute->pids[execute->current] == 0)
 	{
+		close(execute->fds[0]);
+		dup2(execute->fds[1], 1);
+		close(execute->fds[1]);
+		ft_execute_cmd(execute->cmds[execute->current], shell, envp);
+	}
+	else
+		close(execute->fds[1]);
+}
+
+void	pipex_secondary(t_execute *execute, t_minishell *shell, char *envp[])
+{
+	
+	close(execute->fds[1]);
+	execute->pids[execute->current] = fork();
+	if (execute->pids[execute->current] == 0)
+	{
+		close(execute->fds[0]);
 		dup2(execute->fd_files[1], 1);
 		if (execute->fd_files[1] != 1)
 			close(execute->fd_files[1]);
-		ft_execute_cmd(execute->cmds[execute->cmds_size - 1], shell, envp);
+		ft_execute_cmd(execute->cmds[execute->current], shell, envp);
 	}
-	else
-		*pid = check;
 }
 
 void	ft_pipex(t_execute *execute, t_minishell *shell, char *envp[])
 {
-	int		counter;
-	pid_t	*child_pids;
-
-	child_pids = malloc(sizeof(pid_t) * (execute->cmds_size));
-	counter = -1;
+	execute->pids = malloc(sizeof(pid_t) * (execute->amount));
+	execute->current = -1;
 	dup2(execute->fd_files[0], 0);
 	if (execute->fd_files[0] != 0)
 		close(execute->fd_files[0]);
-	while (++counter < execute->cmds_size)
+	while (++execute->current < execute->amount)
 	{
-		if (counter < execute->cmds_size - 1)
-			ft_pipex_primary(execute->cmds[counter], shell, envp, &child_pids[counter]);
+		pipe(execute->fds);
+		if (execute->current < execute->amount - 1)
+			pipex_primary(execute, shell, envp);
 		else
-			ft_pipex_secondary(execute, shell, envp, &child_pids[counter]);
+			pipex_secondary(execute, shell, envp);
+		dup2(execute->fds[0], 0);
+		close(execute->fds[0]);
 	}
-	counter = -1;
-	while (++counter < execute->cmds_size)
-		waitpid(child_pids[counter], NULL, 0);
-	free(child_pids);
+	pipex_wait(execute);
 }

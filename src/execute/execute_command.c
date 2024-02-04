@@ -22,7 +22,7 @@ int	get_cmds(char *input, t_execute *execute)
 	execute->cmds = ft_split_trim(input, "<|>", " ");
 	if (execute->cmds[0] == NULL)
 		return (ft_free_arrays(execute->cmds));
-	execute->cmds_size = arguments_counter(execute->cmds);
+	execute->amount = arguments_counter(execute->cmds);
 	if (ft_strchr(input, '<'))
 	{
 		temp = execute->cmds[0];
@@ -38,7 +38,7 @@ int	get_cmds(char *input, t_execute *execute)
 	}
 	if (ft_strchr(input, '>'))
 	{
-		execute->fd_files[1] = open(execute->cmds[--execute->cmds_size],
+		execute->fd_files[1] = open(execute->cmds[--execute->amount],
 				O_CREAT | O_RDWR | O_TRUNC, 00700);
 	}
 	return (0);
@@ -52,9 +52,9 @@ void	execute_command(char *input, t_minishell *shell, char **envp)
 
 	if (get_cmds(input, &execute) == -1)
 		return ;
-	if (execute.cmds_size == 1 && is_builtin(execute.cmds[execute.cmds_size - 1]))
+	if (execute.amount == 1 && is_builtin(execute.cmds[execute.amount - 1]))
 	{
-		cmd = ft_split_except(execute.cmds[execute.cmds_size - 1], ' ');
+		cmd = ft_split_except(execute.cmds[execute.amount - 1], ' ');
 		execute_builtin(cmd, shell);
 		free_arguments(cmd);
 		return ;
