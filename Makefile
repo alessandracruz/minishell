@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
+#    By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/01/19 12:38:20 by matlopes         ###   ########.fr        #
+#    Updated: 2024/02/03 20:53:14 by acastilh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,10 @@ SRCDIR		= src
 OBJDIR		= obj
 SRCS		= main.c \
 			  builtins/ft_cd.c \
+			  builtins/ft_cd_aux.c \
 			  builtins/ft_echo.c \
+			  builtins/ft_pwd.c \
+			  builtins/ft_env.c \
 			  execute/execute_command.c \
 			  execute/execute_builtin.c \
 			  execute/pipex.c \

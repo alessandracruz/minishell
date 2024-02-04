@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
+/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/02 12:51:31 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:52:30 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,26 @@ void			ft_execute_cmd(char *argv, t_minishell *shell, char *envp[]);
 // FT_CD
 
 void			change_directory(const char *path);
-void			handle_home_directory(t_minishell *shell);
-void			handle_oldpwd_directory(t_minishell *shell);
 void			update_pwd_oldpwd(t_minishell *shell, char *old_dir);
 bool			ft_cd(char **args, t_minishell *shell);
+
+// FT_CD_AUX
+
+void			handle_home_directory(t_minishell *shell);
+void			handle_oldpwd_directory(t_minishell *shell);
+char			*expand_tilde(char *path, t_minishell *shell);
 
 // FT_ECHO
 
 bool			ft_echo(char **args, t_minishell *shell);
+
+// FT_PWD
+
+bool	ft_pwd(t_minishell *shell);
+
+// FT_ENV
+
+bool ft_env(t_minishell *shell);
 
 // UTILS
 
