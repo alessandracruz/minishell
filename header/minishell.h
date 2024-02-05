@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/03 20:52:30 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/02/05 09:49:31 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ bool ft_env(t_minishell *shell);
 
 // UTILS
 
+void			fd_dup_close(int fd, int change);
 void			free_arguments(char **arguments);
 int				arguments_counter(char **argv);
 t_envp			*get_env_var(const char *name, t_envp *env_list);

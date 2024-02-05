@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+         #
+#    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/02/03 20:53:14 by acastilh         ###   ########.fr        #
+#    Updated: 2024/02/05 09:49:42 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS		= main.c \
 			  execute/pipex.c \
 			  execute/pipex_utils.c \
 			  utils/utils.c \
+			  utils/fd_utils.c \
 			  utils/array_utils.c \
 			  utils/string_utils.c \
 			  utils/ft_split_except.c \
