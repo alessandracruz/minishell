@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
+/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/05 09:49:31 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/16 20:46:46 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,23 @@ bool			ft_echo(char **args, t_minishell *shell);
 
 // FT_PWD
 
-bool	ft_pwd(t_minishell *shell);
+bool			ft_pwd(t_minishell *shell);
 
 // FT_ENV
 
-bool ft_env(t_minishell *shell);
+bool			ft_env(t_minishell *shell);
+
+// FT_UNSET
+
+bool			ft_unset(char **args, t_minishell *shell);
+
+// FT_EXPORT
+
+bool			is_valid_var_name(char *name);
+void			add_or_update_env_var(t_minishell *shell, char *name, char *value);
+void			handle_export_argument(t_minishell *shell, char *arg);
+void			list_environment_variables(t_minishell *shell);
+bool			ft_export(char **args, t_minishell *shell);
 
 // UTILS
 
