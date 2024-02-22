@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/16 20:46:46 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:02:38 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ typedef struct s_envp
 	char			*value;
 	char			*full;
 	struct s_envp	*next;
-}t_envp;
+}	t_envp;
 
 typedef struct s_redirection
 {
 	char	*type;
 	char	*filename;
-}t_redirection;
+}	t_redirection;
 
 typedef struct cmd_node
 {
@@ -58,7 +58,7 @@ typedef struct cmd_node
 	int				arg_count;
 	t_redirection	*input_redirection;
 	t_redirection	*output_redirection;
-}t_cmd_node;
+}	t_cmd_node;
 
 typedef struct s_execute
 {
@@ -66,16 +66,16 @@ typedef struct s_execute
 	pid_t	*pids;
 	int		current;
 	int		amount;
-	int		hasFiles[2];
+//	int		hasFiles[2];
 	int		fd_files[2];
 	int		fds[2];
-}t_execute;
+}	t_execute;
 
 typedef struct s_minishell
 {
 	t_envp		*l_envp;
 	t_cmd_node	*current_cmd;
-}t_minishell;
+}	t_minishell;
 
 // SRC
 
@@ -91,7 +91,7 @@ void			print_error(const char *message, const char *error);
 
 // MAIN
 
-int				main(int /* argc */, char ** /* argv */, char **envp);
+int				main(int argc, char **argv, char **envp);
 
 // EXECUÇAÕ DE COMANDOS EXTERNOS: external_commands
 
@@ -129,15 +129,29 @@ bool			ft_env(t_minishell *shell);
 
 // FT_UNSET
 
+void			remove_env_var(t_envp **l_envp, char *var_name);
 bool			ft_unset(char **args, t_minishell *shell);
 
 // FT_EXPORT
 
 bool			is_valid_var_name(char *name);
-void			add_or_update_env_var(t_minishell *shell, char *name, char *value);
+void			add_or_update_env_var(t_minishell *shell, char *name,
+					char *value);
 void			handle_export_argument(t_minishell *shell, char *arg);
 void			list_environment_variables(t_minishell *shell);
 bool			ft_export(char **args, t_minishell *shell);
+
+// FT_EXIT
+
+bool			is_valid_exit_argument(char *arg);
+void			print_exit_error(char **args, int *exit_status);
+void			ft_exit(char **args, t_minishell *shell);
+
+// SIGNALS
+
+void			setup_signal_handlers(void);
+void			handle_sigint(int sig);
+void			handle_sigquit(int sig);
 
 // UTILS
 
