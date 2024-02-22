@@ -6,7 +6,7 @@
 #    By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/02/16 19:49:14 by acastilh         ###   ########.fr        #
+#    Updated: 2024/02/22 16:19:06 by acastilh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,9 @@ SRCS		= main.c \
 			  builtins/ft_env.c \
 			  builtins/ft_unset.c \
 			  builtins/ft_export.c \
+			  builtins/ft_exit.c \
+			  signals/signals.c \
+			  signals/signal_handlers.c \
 			  execute/execute_command.c \
 			  execute/execute_builtin.c \
 			  execute/pipex.c \
