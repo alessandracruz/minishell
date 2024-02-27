@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:53:39 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/03 20:28:39 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:50:19 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_cutstr(char *str, int start, int len)
+{
+	char	*pointer;
+	int		counter;
+	int		size;
+	int		index;
+
+	size = 0;
+	counter = start;
+	if (!str || start >= (int)ft_strlen(str))
+		return (str);
+	while (str[counter] && counter < start + (len - 1))
+		counter++;
+	while (str[counter + size])
+		size++;
+	size += start - 1;
+	pointer = malloc((size + 1) * sizeof(char));
+	if (!pointer)
+		return (NULL);
+	size = 0;
+	index = 0;
+	while (str[index] && size < start)
+		pointer[size++] = str[index++];
+	while (str[++counter])
+		pointer[size++] = str[counter];
+	pointer[size] = '\0';
+	return(pointer);
+}
 
 char	*join_string_and_free(char *s1, char *s2)
 {

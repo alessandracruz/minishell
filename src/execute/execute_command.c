@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/05 10:43:56 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:49:38 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	get_filein(char *input, t_execute *execute)
 {
-	char	*file;
 	char	*temp;
+	char	*file;
 
 	if (ft_strchr(input, '<'))
 	{
@@ -50,15 +50,23 @@ int	get_fileout(char *input, t_execute *execute)
 	return (0);
 }
 
-int	get_cmds(char *input, t_execute *execute)
+int	get_cmds(char **input, t_execute *execute)
 {
+	char	*temp;
+
 	execute->fd_files[0] = 0;
 	execute->fd_files[1] = 1;
-	execute->cmds = ft_split_trim(input, "<|>", " ");
+	if (ft_strnstr(*input, "<<", ft_strlen(*input)))
+	{
+		temp = heredoc(*input, execute);
+		free(*input);
+		*input = temp;
+	}
+	execute->cmds = ft_split_trim(*input, "<|>", " ");
 	if (execute->cmds[0] == NULL)
 		return (ft_free_arrays(execute->cmds));
 	execute->amount = arguments_counter(execute->cmds);
-	if (get_filein(input, execute) == -1 || get_fileout(input, execute))
+	if (get_filein(*input, execute) == -1 || get_fileout(*input, execute) == -1)
 		return (ft_free_arrays(execute->cmds));
 	return (0);
 }
@@ -84,10 +92,11 @@ void	execute_command(char *input, t_minishell *shell, char **envp)
 	t_execute	execute;
 	int			pid;
 
-	if (get_cmds(input, &execute) == -1)
+	if (get_cmds(&input, &execute) == -1)
 		return ;
 	if (execute.amount == 1 && is_builtin(execute.cmds[execute.amount - 1]))
 		return (execute_single_builtin(&execute, shell));
+	stop_signals();
 	pid = fork();
 	if (!pid)
 	{

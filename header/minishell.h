@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/22 20:02:38 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:49:30 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_execute
 	pid_t	*pids;
 	int		current;
 	int		amount;
-//	int		hasFiles[2];
 	int		fd_files[2];
 	int		fds[2];
 }	t_execute;
@@ -95,6 +94,7 @@ int				main(int argc, char **argv, char **envp);
 
 // EXECUÇAÕ DE COMANDOS EXTERNOS: external_commands
 
+char			*heredoc(char *input, t_execute *execute);
 bool			is_builtin(char *cmd);
 bool			execute_builtin(char **args, t_minishell *shell);
 void			execute_command(char *input, t_minishell *shell, char **envp);
@@ -152,6 +152,8 @@ void			ft_exit(char **args, t_minishell *shell);
 void			setup_signal_handlers(void);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
+void			run_signals(void);
+void			stop_signals(void);
 
 // UTILS
 
@@ -164,6 +166,7 @@ void			update_env_var(const char *name, const char *value,
 void			print_env_list(t_envp *env_list);
 bool			add_env_var(t_envp **env_list, const char *name,
 					const char *value);
+char			*ft_cutstr(char *str, int start, int len);
 char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);
 char			**ft_split_except(char const *s, char c);
