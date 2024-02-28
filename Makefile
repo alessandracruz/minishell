@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/02/27 16:49:26 by matlopes         ###   ########.fr        #
+#    Updated: 2024/02/28 10:36:49 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS		= main.c \
 			  execute/pipex.c \
 			  execute/pipex_utils.c \
 			  utils/utils.c \
+			  utils/quotes_utils.c \
 			  utils/fd_utils.c \
 			  utils/array_utils.c \
 			  utils/string_utils.c \

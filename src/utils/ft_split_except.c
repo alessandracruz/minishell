@@ -6,26 +6,11 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:48 by matlopes          #+#    #+#             */
-/*   Updated: 2024/01/16 11:39:15 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/28 10:36:04 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_check_quote(char const *s)
-{
-	int		counter;
-	char	quote;
-
-	counter = 0;
-	quote = s[0];
-	while (s[++counter])
-	{
-		if (s[counter] == quote)
-			return (counter);
-	}
-	return (0);
-}
 
 static int	ft_how_many_splits(char const *s, char c)
 {

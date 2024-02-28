@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/27 16:49:30 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/28 11:38:48 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ void			update_env_var(const char *name, const char *value,
 void			print_env_list(t_envp *env_list);
 bool			add_env_var(t_envp **env_list, const char *name,
 					const char *value);
+int				ft_check_quote(char const *s);
 char			*ft_cutstr(char *str, int start, int len);
 char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);
