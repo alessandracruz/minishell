@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   quotes_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/12 21:42:49 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/29 15:18:47 by matlopes         ###   ########.fr       */
+/*   Created: 2024/02/28 10:36:07 by matlopes          #+#    #+#             */
+/*   Updated: 2024/02/28 12:15:37 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_substr(const char *s, unsigned int start, size_t len)
+int	ft_check_quote(char const *s)
 {
-	char	*str;
+	int		counter;
+	char	quote;
 
-	if (!s)
-		return ((void *)0);
-	if (start > ft_strlen(s))
-		return (ft_strdup(""));
-	if (ft_strlen(s) - start >= len)
-		str = malloc(len + 1);
-	else
-		str = malloc((ft_strlen(s) - start) + 1);
-	if (!str)
-		return ((void *)0);
-	ft_strlcpy(str, (s + start), (len + 1));
-	return (str);
+	counter = 0;
+	quote = s[0];
+	while (s[++counter])
+	{
+		if (s[counter] == quote)
+			return (counter);
+	}
+	return (0);
 }

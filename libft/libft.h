@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:26:15 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/19 12:34:47 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:56:11 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ char	**ft_split_trim(char const *s, char *c, char *set);
 int		ft_printf(const char *str, ...);
 size_t	ft_putchar(char c);
 size_t	ft_putstr(char *str);
+void	ft_putnbr(int n);
 
 #endif

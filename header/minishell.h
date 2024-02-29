@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/27 16:49:30 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:40:33 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define TRUE 1
 # define FALSE 0
 # define MSGERROR "(Minishell): syntax error near unexpected token `newline'\n"
+
+# define EXIT_FORK 130
 
 typedef struct s_envp
 {
@@ -74,6 +76,8 @@ typedef struct s_minishell
 {
 	t_envp		*l_envp;
 	t_cmd_node	*current_cmd;
+	int			exit;
+	int			heredoc_exit;
 }	t_minishell;
 
 // SRC
@@ -94,10 +98,10 @@ int				main(int argc, char **argv, char **envp);
 
 // EXECUÇAÕ DE COMANDOS EXTERNOS: external_commands
 
-char			*heredoc(char *input, t_execute *execute);
+char			*heredoc(char *input, t_execute *execute, t_minishell *shell);
 bool			is_builtin(char *cmd);
 bool			execute_builtin(char **args, t_minishell *shell);
-void			execute_command(char *input, t_minishell *shell, char **envp);
+void			execute_command(char **input, t_minishell *shell, char **envp);
 void			ft_pipex(t_execute *execute, t_minishell *shell, char *envp[]);
 void			ft_execute_cmd(char *argv, t_minishell *shell, char *envp[]);
 
@@ -149,11 +153,11 @@ void			ft_exit(char **args, t_minishell *shell);
 
 // SIGNALS
 
-void			setup_signal_handlers(void);
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
-void			run_signals(void);
-void			stop_signals(void);
+void			sig_new_line(int sig);
+void			sig_empty(int sig);
+void			run_sigint(void);
 
 // UTILS
 
@@ -166,6 +170,7 @@ void			update_env_var(const char *name, const char *value,
 void			print_env_list(t_envp *env_list);
 bool			add_env_var(t_envp **env_list, const char *name,
 					const char *value);
+int				ft_check_quote(char const *s);
 char			*ft_cutstr(char *str, int start, int len);
 char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);
@@ -181,48 +186,5 @@ char			*expand_variable_in_quotes(char *arg, t_minishell *shell,
 
 char			*get_variable_name(const char *arg, int start);
 char			*get_variable_value(const char *name, t_minishell *shell);
-
-// HANDLE_QUOTES
-
-char			*handle_quotes(char *arg, t_minishell *shell);
-
-// QUOTE_PROCESSING
-
-char			*process_single_quote(char *arg, int *index);
-char			*process_double_quote_end(char *arg, char *result, int *index,
-					int start);
-char			*process_double_quotes(char *arg, t_minishell *shell,
-					int *index);
-char			*process_quotes(char *arg, t_minishell *shell);
-
-// PARSE
-
-// PARSE_INPUT
-
-t_cmd_node		*parse_input(char *input);
-
-// PARSE_REDIRECTION
-
-t_redirection	*parse_redirection(char **tokens, int *index);
-void			apply_output_redirections(t_cmd_node *cmd);
-void			apply_simple_input_redirection(t_cmd_node *cmd);
-void			apply_here_document(t_cmd_node *cmd);
-void			apply_input_redirections(t_cmd_node *cmd);
-
-// TOKENIZER
-
-int				is_delimiter(char c, char delimiter);
-int				count_tokens(char *input, char delimiter);
-char			**tokenize_input(char *input, char delimiter);
-void			parse_token(char **tokens, int *index, t_cmd_node *cmd);
-
-// SYNTAX_ANALYZER
-
-bool			is_redirection(char *token);
-void			process_redirection(char **tokens, int *index, t_cmd_node *cmd);
-bool			is_quote(char c);
-void			add_argument_to_command(t_cmd_node *cmd, char *arg);
-void			process_quotes_syntax(char **tokens, int *index,
-					t_cmd_node *cmd);
 
 #endif

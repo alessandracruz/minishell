@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:36:48 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/27 16:49:35 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:26:15 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char ** argv, char **envp)
 		ft_printf("Teste HOME falhou, variável não encontrada.\n");
 	while (TRUE)
 	{
-		run_signals();
+		run_sigint();
 		input = display_prompt();
 		if (input == NULL)
 		{
@@ -46,7 +46,7 @@ int	main(int argc, char ** argv, char **envp)
 			free(input);
 			break ;
 		}
-		execute_command(input, &shell, envp);
+		execute_command(&input, &shell, envp);
 		free(input);
 	}
 	free_memory(&shell);

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:53:39 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/27 16:50:19 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/28 13:45:19 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_cutstr(char *str, int start, int len)
 
 	size = 0;
 	counter = start;
-	if (!str || start >= (int)ft_strlen(str))
+	if (!str || start + 1 >= (int)ft_strlen(str))
 		return (str);
 	while (str[counter] && counter < start + (len - 1))
 		counter++;
