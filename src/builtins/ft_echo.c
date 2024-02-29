@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:50:49 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/19 10:55:04 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/29 12:25:50 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,21 @@ void	ft_printv(char *str, t_minishell *shell)
 	{
 		if (str[index] == '$')
 		{
-			var_value = expand_variable_in_quotes(str, shell, &index);
-			index++;
-			if (var_value)
+			if (str[index + 1] == '?')
 			{
-				index += ft_strlen(var_value);
-				ft_putstr(var_value);
-				free(var_value);
+				ft_putnbr(shell->exit);
+				index++;
+			}
+			else
+			{
+				var_value = expand_variable_in_quotes(str, shell, &index);
+				index++;
+				if (var_value)
+				{
+					index += ft_strlen(var_value);
+					ft_putstr(var_value);
+					free(var_value);
+				}
 			}
 		}
 		else

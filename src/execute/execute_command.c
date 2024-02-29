@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/27 16:49:38 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/29 15:25:48 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	get_fileout(char *input, t_execute *execute)
 	{
 		execute->fd_files[1] = open(execute->cmds[--execute->amount],
 				O_CREAT | O_RDWR | O_TRUNC, 00700);
-		if (execute->fd_files[0] == -1)
+		if (execute->fd_files[1] == -1)
 		{
 			print_error(execute->cmds[--execute->amount], strerror(errno));
 			return (-1);
@@ -50,7 +50,7 @@ int	get_fileout(char *input, t_execute *execute)
 	return (0);
 }
 
-int	get_cmds(char **input, t_execute *execute)
+int	get_cmds(char **input, t_execute *execute, t_minishell *shell)
 {
 	char	*temp;
 
@@ -58,7 +58,12 @@ int	get_cmds(char **input, t_execute *execute)
 	execute->fd_files[1] = 1;
 	if (ft_strnstr(*input, "<<", ft_strlen(*input)))
 	{
-		temp = heredoc(*input, execute);
+		temp = heredoc(*input, execute, shell);
+		if (!temp)
+		{
+			shell->exit = shell->heredoc_exit;
+			return (-1);
+		}
 		free(*input);
 		*input = temp;
 	}
@@ -79,30 +84,38 @@ void	execute_single_builtin(t_execute *execute, t_minishell *shell)
 	saved_stds[0] = dup(0);
 	saved_stds[1] = dup(1);
 	cmd = ft_split_except(execute->cmds[execute->amount - 1], ' ');
+	free_arguments(execute->cmds);
 	fd_dup_close(execute->fd_files[0], 0);
 	fd_dup_close(execute->fd_files[1], 1);
 	execute_builtin(cmd, shell);
 	free_arguments(cmd);
 	dup2(saved_stds[0], 0);
 	dup2(saved_stds[1], 1);
+	shell->exit = EXIT_SUCCESS;
 }
 
-void	execute_command(char *input, t_minishell *shell, char **envp)
+void	execute_command(char **input, t_minishell *shell, char **envp)
 {
 	t_execute	execute;
 	int			pid;
+	int			status;
 
-	if (get_cmds(&input, &execute) == -1)
+	shell->heredoc_exit = EXIT_SUCCESS;
+	signal(SIGINT, sig_empty);
+	if (get_cmds(input, &execute, shell) == -1)
 		return ;
 	if (execute.amount == 1 && is_builtin(execute.cmds[execute.amount - 1]))
 		return (execute_single_builtin(&execute, shell));
-	stop_signals();
+	shell->exit = EXIT_SUCCESS;
 	pid = fork();
 	if (!pid)
 	{
+		signal(SIGINT, sig_new_line);
 		ft_pipex(&execute, shell, envp);
 		free_arguments(execute.cmds);
 		exit(EXIT_SUCCESS);
 	}
-	waitpid(-1, NULL, 0);
+	waitpid(pid, &status, 0);
+	free_arguments(execute.cmds);
+	shell->exit = WEXITSTATUS(status);
 }

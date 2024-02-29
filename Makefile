@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/02/28 10:36:49 by matlopes         ###   ########.fr        #
+#    Updated: 2024/02/29 15:40:46 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS		= main.c \
 			  builtins/ft_unset.c \
 			  builtins/ft_export.c \
 			  signals/signals.c \
-			  signals/signal_handlers.c \
+			  signals/signals_utils.c \
 			  execute/heredoc.c \
 			  execute/execute_command.c \
 			  execute/execute_builtin.c \
@@ -43,10 +43,6 @@ SRCS		= main.c \
 			  print_error.c \
 			  expand_variable/expand_variable.c \
 			  expand_variable/variable_data_access.c \
-			  parser/parse_input.c \
-			  parser/parse_redirection.c \
-			  parser/tokenizer.c \
-			  parser/syntax_analyzer.c \
 
 SRCS		:= $(addprefix $(SRCDIR)/,$(SRCS))
 OBJS		:= $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 18:28:07 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/19 12:40:55 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:58:24 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	init_shell(t_minishell *shell, char **envp)
 	i = 0;
 	shell->l_envp = NULL;
 	shell->current_cmd = NULL;
+	shell->exit = EXIT_SUCCESS;
 	while (envp[i] != NULL)
 	{
 		add_env_from_entry(envp[i], &shell->l_envp);
