@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 12:50:12 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:27:14 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	get_cmds(char **input, t_execute *execute, t_minishell *shell)
 
 	execute->fd_files[0] = 0;
 	execute->fd_files[1] = 1;
-	if (ft_strnstr(*input, "<<", ft_strlen(*input)))
+	while (ft_strnstr(*input, "<<", ft_strlen(*input)))
 	{
 		temp = heredoc(*input, execute, shell);
 		shell->exit = shell->heredoc_exit;

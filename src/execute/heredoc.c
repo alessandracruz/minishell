@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:49:55 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/01 12:50:20 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:26:48 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void    heredoc_inputs(char *eof, t_execute *execute, t_minishell *shell)
     int     status;
 
     pipe(fd);
+    if (execute->fd_files[0] != 0)
+        close(execute->fd_files[0]);
     execute->fd_files[0] = fd[0];
     pid = fork();
     if (!pid)
