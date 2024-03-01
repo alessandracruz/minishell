@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/29 15:40:33 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:20:55 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define FALSE 0
 # define MSGERROR "(Minishell): syntax error near unexpected token `newline'\n"
 
+# define EXIT_DENIED 126
+# define EXIT_NOTFOUND 127
 # define EXIT_FORK 130
 
 typedef struct s_envp
@@ -90,6 +92,7 @@ void			print_envp(char **envp);
 void			init_shell(t_minishell *shell, char **envp);
 void			add_env_from_entry(char *entry, t_envp **env_list);
 char			*display_prompt(void);
+void			cmd_print_error(const char *message, const char *error);
 void			print_error(const char *message, const char *error);
 
 // MAIN
@@ -149,15 +152,16 @@ bool			ft_export(char **args, t_minishell *shell);
 
 bool			is_valid_exit_argument(char *arg);
 void			print_exit_error(char **args, int *exit_status);
-void			ft_exit(char **args, t_minishell *shell);
+bool			ft_exit(char **args, t_minishell *shell);
 
 // SIGNALS
 
 void			handle_sigint(int sig);
 void			handle_sigquit(int sig);
 void			sig_new_line(int sig);
+void			sig_heredoc_break(int sig);
 void			sig_empty(int sig);
-void			run_sigint(void);
+void			run_signals(void);
 
 // UTILS
 

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:49:55 by matlopes          #+#    #+#             */
-/*   Updated: 2024/02/29 15:44:48 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:50:20 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ void    heredoc_inputs(char *eof, t_execute *execute, t_minishell *shell)
     pid = fork();
     if (!pid)
     {
-        signal(SIGINT, sig_new_line);
         close(fd[0]);
+        signal(SIGINT, sig_new_line);
+        signal(SIGILL, sig_heredoc_break);
         while (true)
         {
             tmp = readline("> ");
@@ -69,7 +70,7 @@ char    *heredoc(char *input, t_execute *execute, t_minishell *shell)
         counter += ft_check_quote(pointer + counter);
     }
     else
-        while (pointer[counter] != ' ')
+        while (pointer[counter] && pointer[counter] != ' ')
             counter++;
     eof = ft_substr(pointer, (start + check), (counter - start) - check);
     heredoc_inputs(eof, execute, shell);

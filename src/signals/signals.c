@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 16:06:20 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/29 11:45:24 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 10:40:28 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	handle_sigquit(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 }
 
-void	run_sigint(void)
+void	run_signals(void)
 {
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 }

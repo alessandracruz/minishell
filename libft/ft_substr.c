@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 21:42:49 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/29 15:18:47 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:13:01 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	if (start > ft_strlen(s))
 		return (ft_strdup(""));
 	if (ft_strlen(s) - start >= len)
-		str = malloc(len + 1);
+		str = malloc((len + 1) * sizeof(char));
 	else
-		str = malloc((ft_strlen(s) - start) + 1);
+		str = malloc(((ft_strlen(s) - start) + 1) * sizeof(char));
 	if (!str)
 		return ((void *)0);
 	ft_strlcpy(str, (s + start), (len + 1));

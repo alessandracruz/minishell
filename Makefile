@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/02/29 15:40:46 by matlopes         ###   ########.fr        #
+#    Updated: 2024/03/01 11:38:44 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS		= main.c \
 			  builtins/ft_env.c \
 			  builtins/ft_unset.c \
 			  builtins/ft_export.c \
+			  builtins/ft_exit.c \
 			  signals/signals.c \
 			  signals/signals_utils.c \
 			  execute/heredoc.c \

@@ -6,20 +6,23 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 11:52:51 by matlopes          #+#    #+#             */
-/*   Updated: 2024/02/05 10:12:11 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:21:16 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pipex_wait(t_execute *execute)
+void	pipex_wait(t_execute *execute, t_minishell *shell)
 {
 	int	counter;
 	int	status;
 
 	counter = -1;
 	while (++counter < execute->amount)
+	{
 		waitpid(execute->pids[counter], &status, 0);
+		shell->exit = WEXITSTATUS(status);
+	}
 	free(execute->pids);
 }
 
@@ -65,5 +68,5 @@ void	ft_pipex(t_execute *execute, t_minishell *shell, char *envp[])
 		dup2(execute->fds[0], 0);
 		close(execute->fds[0]);
 	}
-	pipex_wait(execute);
+	pipex_wait(execute, shell);
 }

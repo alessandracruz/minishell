@@ -6,17 +6,11 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:43 by matlopes          #+#    #+#             */
-/*   Updated: 2024/02/02 13:05:29 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:19:13 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_error_msg(char *str)
-{
-	perror(str);
-	exit(EXIT_FAILURE);
-}
 
 char	*ft_find_path(char *cmd, char *envp[])
 {
@@ -51,6 +45,8 @@ void	ft_execute_cmd(char *argv, t_minishell *shell, char *envp[])
 {
 	char	**cmd;
 	char	*path;
+	char	*error;
+	int		exit_status;
 
 	cmd = ft_split_except(argv, ' ');
 	if (!execute_builtin(cmd, shell))
@@ -58,15 +54,19 @@ void	ft_execute_cmd(char *argv, t_minishell *shell, char *envp[])
 		path = ft_find_path(cmd[0], envp);
 		if (!path || (access(path, F_OK | X_OK) != 0 && ft_strchr(cmd[0], '/')))
 		{
-			perror(cmd[0]);
+			error = strerror(errno);
+			if (ft_strnstr(error, "denied", ft_strlen(error)))
+				exit_status = EXIT_DENIED;
+			else
+				exit_status = EXIT_NOTFOUND;
+			cmd_print_error(cmd[0], error);
 			ft_free_arrays(cmd);
-			exit(EXIT_FAILURE);
+			exit(exit_status);
 		}
 		execve(path, cmd, envp);
-		ft_putstr_fd(cmd[0], 2);
-		ft_putstr_fd(": Command not found\n", 2);
+		perror(cmd[0]);
 		ft_free_arrays(cmd);
-		exit(EXIT_FAILURE);
+		exit(EXIT_NOTFOUND);
 	}
 	exit(EXIT_SUCCESS);
 }

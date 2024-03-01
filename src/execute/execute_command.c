@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/29 15:25:48 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:50:12 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,47 @@ int	get_filein(char *input, t_execute *execute)
 
 int	get_fileout(char *input, t_execute *execute)
 {
-	if (ft_strchr(input, '>'))
+	char	*temp;
+	int		fd;
+	int		check;
+	int		index;
+	int		counter;
+
+	counter = -1;
+	index = 0;
+	while (ft_strchr(input + ++counter, '>'))
 	{
-		execute->fd_files[1] = open(execute->cmds[--execute->amount],
-				O_CREAT | O_RDWR | O_TRUNC, 00700);
-		if (execute->fd_files[1] == -1)
+		temp = ft_strchr(input + counter, '>');
+		counter = ft_strlen(input) - ft_strlen(temp);
+		if (temp[1] == '>')
+			counter++;
+		index++;
+	}
+	execute->amount -= index;
+	index = -1;
+	check = 0;
+	counter = -1;
+	while (ft_strchr(input + ++counter, '>'))
+	{
+		temp = ft_strchr(input + counter, '>');
+		counter = ft_strlen(input) - ft_strlen(temp);
+		if (temp[1] == '>')
 		{
-			print_error(execute->cmds[--execute->amount], strerror(errno));
+			counter++;	
+			fd = open(execute->cmds[execute->amount + ++index],
+					O_CREAT | O_RDWR | O_APPEND, 00700);
+		}
+		else
+			fd = open(execute->cmds[execute->amount + ++index],
+					O_CREAT | O_RDWR | O_TRUNC, 00700);
+		if (fd == -1)
+		{
+			print_error(execute->cmds[execute->amount + index], strerror(errno));
 			return (-1);
 		}
+		if (check++)
+			close(execute->fd_files[1]);
+		execute->fd_files[1] = fd;
 	}
 	return (0);
 }
@@ -59,11 +91,9 @@ int	get_cmds(char **input, t_execute *execute, t_minishell *shell)
 	if (ft_strnstr(*input, "<<", ft_strlen(*input)))
 	{
 		temp = heredoc(*input, execute, shell);
+		shell->exit = shell->heredoc_exit;
 		if (!temp)
-		{
-			shell->exit = shell->heredoc_exit;
 			return (-1);
-		}
 		free(*input);
 		*input = temp;
 	}
@@ -113,9 +143,9 @@ void	execute_command(char **input, t_minishell *shell, char **envp)
 		signal(SIGINT, sig_new_line);
 		ft_pipex(&execute, shell, envp);
 		free_arguments(execute.cmds);
-		exit(EXIT_SUCCESS);
+		exit(shell->exit);
 	}
 	waitpid(pid, &status, 0);
-	free_arguments(execute.cmds);
 	shell->exit = WEXITSTATUS(status);
+	free_arguments(execute.cmds);
 }
