@@ -6,7 +6,7 @@
 /*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:45:06 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/16 20:45:55 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:32:50 by acastilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool    is_valid_var_name(char *name)
 {
-    if (!ft_isalpha(*name) && *name != '_')
+    if (!ft_isalpha(*name) && *name != '_' && *name != '$')
         return (false);
     name++;
     while (*name)
