@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_aux.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:45:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/03 19:39:46 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:51:22 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,21 @@ void	handle_oldpwd_directory(t_minishell *shell)
 	}
 }
 
-char *expand_tilde(char *path, t_minishell *shell)
+char	*expand_tilde(char *path, t_minishell *shell)
 {
-    if (path[0] == '~')
-    {
-        t_envp *home_env;
-        char   *expanded_path;
+	t_envp	*home_env;
+	char	*expanded_path;
 
-        home_env = get_env_var("HOME", shell->l_envp);
-        if (home_env == NULL || home_env->value == NULL)
-        {
-            print_error("cd error", "HOME not set");
-            return (NULL);
-        }
-        expanded_path = join_string_and_free(home_env->value, path + 1);
-        return (expanded_path);
-    }
-    return (strdup(path));
+	if (path[0] == '~')
+	{
+		home_env = get_env_var("HOME", shell->l_envp);
+		if (home_env == NULL || home_env->value == NULL)
+		{
+			print_error("cd error", "HOME not set");
+			return (NULL);
+		}
+		expanded_path = join_string_and_free(home_env->value, path + 1);
+		return (expanded_path);
+	}
+	return (strdup(path));
 }
-

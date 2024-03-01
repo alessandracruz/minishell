@@ -6,17 +6,13 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:36:48 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 10:34:02 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:35:21 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*int	signal_number;
-
-signal_number = 0;*/
-
-int	main(int argc, char ** argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_minishell	shell;

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 14:27:14 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 14:43:31 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	get_fileout(char *input, t_execute *execute)
 		counter = ft_strlen(input) - ft_strlen(temp);
 		if (temp[1] == '>')
 		{
-			counter++;	
+			counter++;
 			fd = open(execute->cmds[execute->amount + ++index],
 					O_CREAT | O_RDWR | O_APPEND, 00700);
 		}
@@ -72,7 +72,8 @@ int	get_fileout(char *input, t_execute *execute)
 					O_CREAT | O_RDWR | O_TRUNC, 00700);
 		if (fd == -1)
 		{
-			print_error(execute->cmds[execute->amount + index], strerror(errno));
+			print_error(execute->cmds[execute->amount + index],
+				strerror(errno));
 			return (-1);
 		}
 		if (check++)

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:43 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/01 12:19:13 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:25:23 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	ft_execute_cmd(char *argv, t_minishell *shell, char *envp[])
 	if (!execute_builtin(cmd, shell))
 	{
 		path = ft_find_path(cmd[0], envp);
-		if (!path || (access(path, F_OK | X_OK) != 0 && ft_strchr(cmd[0], '/')))
+		if (!ft_strlen(cmd[0]) || !path || (access(path, F_OK | X_OK) != 0 && ft_strchr(cmd[0], '/')))
 		{
 			error = strerror(errno);
-			if (ft_strnstr(error, "denied", ft_strlen(error)))
+			if (ft_strnstr(error, "denied", ft_strlen(error)) || !ft_strlen(cmd[0]))
 				exit_status = EXIT_DENIED;
 			else
 				exit_status = EXIT_NOTFOUND;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 16:17:55 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/03 19:39:39 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:16:15 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	change_directory(const char *path)
 	if (chdir(path) == -1)
 		print_error("cd error", strerror(errno));
 }
-
-
 
 void	update_pwd_oldpwd(t_minishell *shell, char *old_dir)
 {
