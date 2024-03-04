@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 16:17:55 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 15:16:15 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:47:35 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	update_pwd_oldpwd(t_minishell *shell, char *old_dir)
 bool	ft_cd(char **args, t_minishell *shell)
 {
 	char	old_dir[MAX_PATH_LENGHT];
-	char   *path_expanded;
+	char	*path_expanded;
 
 	if (getcwd(old_dir, sizeof(old_dir)) == NULL)
 	{

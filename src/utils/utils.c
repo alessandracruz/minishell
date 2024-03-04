@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 15:53:35 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/19 12:55:59 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:52:16 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,33 @@ void	print_env_list(t_envp *env_list)
 		ft_printf("%s = %s\n", current->name, current->value);
 		current = current->next;
 	}
+}
+
+char	**get_envp(t_envp *envp)
+{
+	int		counter;
+	char	*temp;
+	char	**env;
+	t_envp	*pointer;
+
+	pointer = envp;
+	counter = 0;
+	while (pointer)
+	{
+		pointer = pointer->next;
+		counter++;
+	}
+	env = malloc((counter + 1) * sizeof(char *));
+	if (!env)
+		return (NULL);
+	counter = 0;
+	while (envp)
+	{
+		temp = ft_strjoin(envp->name, "=");
+		env[counter++] = ft_strjoin(temp, envp->value);
+		free(temp);
+		envp = envp->next;
+	}
+	env[counter] = NULL;
+	return (env);
 }

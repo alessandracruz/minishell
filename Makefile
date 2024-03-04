@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/03/01 11:38:44 by matlopes         ###   ########.fr        #
+#    Updated: 2024/03/03 14:19:55 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS		= main.c \
 			  utils/array_utils.c \
 			  utils/string_utils.c \
 			  utils/ft_split_except.c \
+			  utils/ft_split_trim.c \
 			  init_shell.c \
 			  print_envp.c \
 			  display_prompt.c \

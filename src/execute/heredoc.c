@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:49:55 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/01 14:49:22 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 15:10:53 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	heredoc_inputs(char *eof, t_execute *execute, t_minishell *shell)
 	close(fd[1]);
 }
 
-char	*heredoc(char *input, t_execute *execute, t_minishell *shell)
+char	*heredoc(char *input, int index, t_execute *execute, t_minishell *shell)
 {
 	char	*eof;
 	char	*pointer;
@@ -61,7 +61,7 @@ char	*heredoc(char *input, t_execute *execute, t_minishell *shell)
 
 	counter = 2;
 	check = 0;
-	pointer = ft_strnstr(input, "<<", ft_strlen(input));
+	pointer = ft_strnstr(input + index, "<<", ft_strlen(input));
 	while (pointer[counter] == ' ')
 		counter++;
 	start = counter;

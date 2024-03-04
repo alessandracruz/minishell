@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 12:20:55 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:55:23 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 # define EXIT_DENIED 126
 # define EXIT_NOTFOUND 127
 # define EXIT_FORK 130
+# define EXIT_QUITFORK 131
+
+extern int	g_signal_exit;
 
 typedef struct s_envp
 {
@@ -68,6 +71,7 @@ typedef struct s_execute
 {
 	char	**cmds;
 	pid_t	*pids;
+	int		start;
 	int		current;
 	int		amount;
 	int		fd_files[2];
@@ -101,12 +105,13 @@ int				main(int argc, char **argv, char **envp);
 
 // EXECUÇAÕ DE COMANDOS EXTERNOS: external_commands
 
-char			*heredoc(char *input, t_execute *execute, t_minishell *shell);
+char			*heredoc(char *input, int index, t_execute *execute,
+					t_minishell *shell);
 bool			is_builtin(char *cmd);
 bool			execute_builtin(char **args, t_minishell *shell);
-void			execute_command(char **input, t_minishell *shell, char **envp);
-void			ft_pipex(t_execute *execute, t_minishell *shell, char *envp[]);
-void			ft_execute_cmd(char *argv, t_minishell *shell, char *envp[]);
+void			execute_command(char **input, t_minishell *shell);
+void			ft_pipex(t_execute *execute, t_minishell *shell);
+void			ft_execute_cmd(char *argv, t_minishell *shell);
 
 // BUILTINS
 
@@ -172,13 +177,16 @@ t_envp			*get_env_var(const char *name, t_envp *env_list);
 void			update_env_var(const char *name, const char *value,
 					t_envp **env_list);
 void			print_env_list(t_envp *env_list);
+char			**get_envp(t_envp *envp);
 bool			add_env_var(t_envp **env_list, const char *name,
 					const char *value);
 int				ft_check_quote(char const *s);
+int				ft_check_inside_quotes(char const *s, int index);
 char			*ft_cutstr(char *str, int start, int len);
 char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);
 char			**ft_split_except(char const *s, char c);
+char			**ft_split_trim(char const *s, char *c, char *set);
 
 // EXPAND_VARIABLE
 

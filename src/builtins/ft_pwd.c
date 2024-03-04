@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 16:10:12 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/03 20:53:43 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:48:00 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	ft_pwd(t_minishell *shell)
 {
-	(void)shell;
 	char	cwd[MAX_PATH_LENGHT];
 
 	(void)shell;

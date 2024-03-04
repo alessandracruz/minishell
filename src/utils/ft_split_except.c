@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:48 by matlopes          #+#    #+#             */
-/*   Updated: 2024/02/29 15:21:36 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:51:29 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ static int	ft_how_many_splits(char const *s, char c)
 	counter = -1;
 	while (s[++counter])
 	{
-		if (s[counter] == 34 || s[counter] == 39)
+		if ((s[counter] == 34 || s[counter] == 39)
+			&& ft_check_quote(s + counter))
 		{
+			if (!counter || s[counter - 1] == c)
+				split++;
 			counter += ft_check_quote(s + counter);
-			split++;
 		}
 		else if (s[counter] != c && (!counter || s[counter - 1] == c))
 			split++;
@@ -35,24 +37,16 @@ static int	ft_how_many_splits(char const *s, char c)
 static int	ft_put_string(char **pointer, int split, char const *s, char c)
 {
 	int	size;
-	int	start;
-	int	check;
 
 	size = 0;
-	start = 0;
-	check = 0;
 	while (s[size] != '\0' && s[size] != c)
 	{
 		if ((s[size] == 34 || s[size] == 39) && ft_check_quote(s + size) > 0)
-		{
-			size = ft_check_quote(s + size) + 1;
-			start++;
-			check = 2;
-			break ;
-		}
-		size++;
+			size += ft_check_quote(s + size) + 1;
+		else
+			size++;
 	}
-	pointer[split] = ft_substr(s, start, size - check);
+	pointer[split] = ft_substr(s, 0, size);
 	if (!pointer[split])
 		return (ft_free_arrays(pointer));
 	return (size);

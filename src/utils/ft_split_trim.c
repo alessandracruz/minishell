@@ -6,13 +6,13 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:41:41 by matlopes          #+#    #+#             */
-/*   Updated: 2024/01/22 12:42:53 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:51:07 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-static char	**free_arrays_return (char **pointer)
+static char	**free_arrays_return(char **pointer)
 {
 	ft_free_arrays(pointer);
 	return (NULL);
@@ -26,8 +26,18 @@ static int	ft_how_many_splits(char const *s, char *c)
 	split = 0;
 	counter = -1;
 	while (s[++counter])
-		if (!ft_strchr(c, s[counter]) && (counter == 0 || ft_strchr(c, s[counter - 1])))
+	{
+		if ((s[counter] == 34 || s[counter] == 39)
+			&& ft_check_quote(s + counter))
+		{
+			if (!counter || ft_strchr(c, s[counter - 1]))
+				split++;
+			counter += ft_check_quote(s + counter);
+		}
+		else if (!ft_strchr(c, s[counter]) && (!counter
+				|| ft_strchr(c, s[counter - 1])))
 			split++;
+	}
 	return (split);
 }
 
@@ -44,7 +54,12 @@ static int	ft_put_string(char **pointer, char const *s, char *c, char *set)
 	if (!s[start])
 		return (start);
 	while (s[start + size] != '\0' && !ft_strchr(c, s[start + size]))
-		size++;
+	{
+		if ((s[size] == 34 || s[size] == 39) && ft_check_quote(s + size) > 0)
+			size += ft_check_quote(s + size) + 1;
+		else
+			size++;
+	}
 	temp = ft_substr(s, start, size);
 	if (!temp)
 		return (-1);

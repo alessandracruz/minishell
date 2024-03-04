@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/22 11:53:39 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/28 13:45:19 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:50:26 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_cutstr(char *str, int start, int len)
 	while (str[++counter])
 		pointer[size++] = str[counter];
 	pointer[size] = '\0';
-	return(pointer);
+	return (pointer);
 }
 
 char	*join_string_and_free(char *s1, char *s2)
@@ -48,8 +48,6 @@ char	*join_string_and_free(char *s1, char *s2)
 	new_str = ft_strjoin(s1, s2);
 	if (s1)
 		free(s1);
-	/*if (s2)
-		free(s2);*/
 	return (new_str);
 }
 

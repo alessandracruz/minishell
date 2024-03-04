@@ -6,21 +6,31 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:50:49 by acastilh          #+#    #+#             */
-/*   Updated: 2024/02/29 12:25:50 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 20:37:51 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_printv(char *str, t_minishell *shell)
+int	ft_printnv(char *str, t_minishell *shell, int size, bool check_env)
 {
 	int		index;
 	char	*var_value;
-	
-	index = -1;
-	while (str[++index])
+
+	index = 0;
+	while (str[index] && index < size)
 	{
-		if (str[index] == '$')
+		if (check_env && (str[index] == 34 || str[index] == 39)
+			&& ft_check_quote(str + index))
+		{
+			if (str[index] == 34)
+				index += ft_printnv(str + index + 1, shell,
+						ft_check_quote(str + index) - 1, true) + 1;
+			else
+				index += ft_printnv(str + index + 1, shell,
+						ft_check_quote(str + index) - 1, false) + 1;
+		}
+		else if (check_env && str[index] == '$')
 		{
 			if (str[index + 1] == '?')
 			{
@@ -40,14 +50,16 @@ void	ft_printv(char *str, t_minishell *shell)
 			}
 		}
 		else
-			ft_putchar(str[index]);	
+			ft_putchar(str[index]);
+		index++;
 	}
+	return (index);
 }
 
 bool	ft_echo(char **args, t_minishell *shell)
 {
-	int		newline;
-	int		i;
+	int	newline;
+	int	i;
 
 	newline = 1;
 	i = 0;
@@ -58,7 +70,7 @@ bool	ft_echo(char **args, t_minishell *shell)
 	}
 	while (args[++i])
 	{
-		ft_printv(args[i], shell);
+		ft_printnv(args[i], shell, ft_strlen(args[i]), true);
 		if (args[i + 1])
 			ft_putchar(' ');
 	}
