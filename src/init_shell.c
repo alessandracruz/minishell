@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 18:28:07 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 12:21:57 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 22:14:51 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,9 @@ void	add_env_from_entry(char *entry, t_envp **env_list)
 			return ;
 		}
 		if (!add_env_var(env_list, name, value))
-		{
-			free(name);
-			free(value);
-		}
+			double_free(name, value);
 		else
-		{
-			free(name);
-			free(value);
-		}
+			double_free(name, value);
 	}
 }
 

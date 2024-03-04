@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/03 20:55:23 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 22:36:14 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ typedef struct cmd_node
 	t_redirection	*output_redirection;
 }	t_cmd_node;
 
+typedef struct s_get_file
+{
+	int		fd;
+	int		index;
+	int		check;
+	char	*temp;
+	int		counter;
+}	t_get_file;
+
 typedef struct s_execute
 {
 	char	**cmds;
@@ -97,7 +106,7 @@ void			init_shell(t_minishell *shell, char **envp);
 void			add_env_from_entry(char *entry, t_envp **env_list);
 char			*display_prompt(void);
 void			cmd_print_error(const char *message, const char *error);
-void			print_error(const char *message, const char *error);
+int				print_error(const char *message, const char *error);
 
 // MAIN
 
@@ -108,6 +117,9 @@ int				main(int argc, char **argv, char **envp);
 char			*heredoc(char *input, int index, t_execute *execute,
 					t_minishell *shell);
 bool			is_builtin(char *cmd);
+int				get_redirect_amount(char redirect, char *input);
+int				get_filein(char *input, t_execute *execute);
+int				get_fileout(char *input, t_execute *execute);
 bool			execute_builtin(char **args, t_minishell *shell);
 void			execute_command(char **input, t_minishell *shell);
 void			ft_pipex(t_execute *execute, t_minishell *shell);
@@ -187,6 +199,7 @@ char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);
 char			**ft_split_except(char const *s, char c);
 char			**ft_split_trim(char const *s, char *c, char *set);
+void			double_free(char *s1, char *s2);
 
 // EXPAND_VARIABLE
 

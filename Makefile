@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/03/03 14:19:55 by matlopes         ###   ########.fr        #
+#    Updated: 2024/03/03 22:36:26 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS		= main.c \
 			  signals/signals.c \
 			  signals/signals_utils.c \
 			  execute/heredoc.c \
+			  execute/redirects.c \
 			  execute/execute_command.c \
 			  execute/execute_builtin.c \
 			  execute/pipex.c \
@@ -36,6 +37,7 @@ SRCS		= main.c \
 			  utils/fd_utils.c \
 			  utils/array_utils.c \
 			  utils/string_utils.c \
+			  utils/free_utils.c \
 			  utils/ft_split_except.c \
 			  utils/ft_split_trim.c \
 			  init_shell.c \

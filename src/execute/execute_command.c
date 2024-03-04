@@ -6,126 +6,11 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/03 20:54:49 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 22:34:36 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	get_redirect_amount(char redirect, char *input)
-{
-	char	*temp;
-	int		index;
-	int		counter;
-
-	counter = -1;
-	index = 0;
-	while (ft_strchr(input + ++counter, redirect))
-	{
-		temp = ft_strchr(input + counter, redirect);
-		if (ft_check_inside_quotes(input, ft_strlen(input) - ft_strlen(temp)) != -1)
-			counter = (ft_strlen(input) - ft_strlen(temp)) + 2;
-		else
-		{
-			counter = ft_strlen(input) - ft_strlen(temp);
-			if (temp[1] == redirect)
-				counter++;
-			index++;
-		}
-	}
-	return (index);
-}
-
-int	get_filein(char *input, t_execute *execute)
-{
-	int		fd;
-	int		redirects;
-	int		index;
-	int		check;
-	char	*temp;
-	char	*file;
-	int		counter;
-
-	check = 0;
-	index = -1;
-	counter = -1;
-	redirects = get_redirect_amount('<', input);
-	if (redirects <= 1)
-		execute->current = -1;
-	else
-		execute->current = redirects - 2;
-	while (ft_strchr(input + ++counter, '<'))
-	{
-		temp = ft_strchr(input + counter, '<');
-		if (ft_check_inside_quotes(input, ft_strlen(input) - ft_strlen(temp)) != -1)
-			counter = (ft_strlen(input) - ft_strlen(temp)) + 1;
-		else
-		{
-			counter = ft_strlen(input) - ft_strlen(temp);
-			temp = execute->cmds[++index];
-			file = ft_substr(temp, 0, ft_strlen(temp)
-					- ft_strlen(ft_strchr(temp, ' ')));
-			fd = open(file, O_RDONLY);
-			if (fd == -1)
-			{
-				print_error(file, strerror(errno));
-				return (-1);
-			}
-			if (check++)
-				close(execute->fd_files[0]);
-			execute->fd_files[0] = fd;
-			execute->cmds[index] = ft_substr(temp, ft_strlen(file) + 1, ft_strlen(temp)
-					- (ft_strlen(file) + 1));
-			free(temp);
-			free(file);
-		}
-	}
-	return (0);
-}
-
-
-int	get_fileout(char *input, t_execute *execute)
-{
-	int		fd;
-	int		check;
-	int		index;
-	char	*temp;
-	int		counter;
-
-	check = 0;
-	index = -1;
-	counter = -1;
-	execute->amount -= get_redirect_amount('>', input);
-	while (ft_strchr(input + ++counter, '>'))
-	{
-		temp = ft_strchr(input + counter, '>');
-		if (ft_check_inside_quotes(input, ft_strlen(input) - ft_strlen(temp)) != -1)
-			counter = (ft_strlen(input) - ft_strlen(temp)) + 2;
-		else
-		{
-			counter = ft_strlen(input) - ft_strlen(temp);
-			if (temp[1] == '>')
-			{
-				counter++;
-				fd = open(execute->cmds[execute->amount + ++index],
-						O_CREAT | O_RDWR | O_APPEND, 00700);
-			}
-			else
-				fd = open(execute->cmds[execute->amount + ++index],
-						O_CREAT | O_RDWR | O_TRUNC, 00700);
-			if (fd == -1)
-			{
-				print_error(execute->cmds[execute->amount + index],
-					strerror(errno));
-				return (-1);
-			}
-			if (check++)
-				close(execute->fd_files[1]);
-			execute->fd_files[1] = fd;
-		}
-	}
-	return (0);
-}
 
 int	get_cmds(char **input, t_execute *execute, t_minishell *shell)
 {
@@ -184,7 +69,6 @@ void	execute_command(char **input, t_minishell *shell)
 	int			pid;
 	int			status;
 
-	
 	shell->heredoc_exit = EXIT_SUCCESS;
 	if (g_signal_exit)
 		shell->exit = g_signal_exit;
@@ -206,4 +90,5 @@ void	execute_command(char **input, t_minishell *shell)
 	waitpid(pid, &status, 0);
 	shell->exit = WEXITSTATUS(status);
 	free_arguments(execute.cmds);
+	free(*input);
 }

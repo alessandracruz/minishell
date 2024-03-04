@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:43 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/03 20:49:20 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/03 22:18:17 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ char	*ft_find_path(char *cmd, char *envp[])
 		tmp = ft_strjoin(full_path[counter++], "/");
 		path = ft_strjoin(tmp, cmd);
 		free(tmp);
-		if (access(path, F_OK | X_OK) == 0)
-		{
-			ft_free_arrays(full_path);
+		if (access(path, F_OK | X_OK) == 0 && ft_free_arrays(full_path) == -1)
 			return (path);
-		}
 		free(path);
 	}
 	ft_free_arrays(full_path);
