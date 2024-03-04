@@ -6,27 +6,13 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:45:06 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/03 20:47:15 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:27:44 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_valid_var_name(char *name)
-{
-	if (!ft_isalpha(*name) && *name != '_' && *name != '$')
-		return (false);
-	name++;
-	while (*name)
-	{
-		if (!ft_isalnum(*name) && *name != '_')
-			return (false);
-		name++;
-	}
-	return (true);
-}
-
-void	add_or_update_env_var(t_minishell *shell, char *name, char *value)
+int	add_or_update_env_var(t_minishell *shell, char *name, char *value)
 {
 	t_envp	*env_var;
 	t_envp	*new_var;
@@ -38,42 +24,43 @@ void	add_or_update_env_var(t_minishell *shell, char *name, char *value)
 		{
 			free(env_var->value);
 			env_var->value = ft_strdup(value);
-			return ;
+			return (1);
 		}
 		env_var = env_var->next;
 	}
 	new_var = (t_envp *)malloc(sizeof(t_envp));
 	if (new_var == NULL)
-		return ;
+		return (1);
 	new_var->name = ft_strdup(name);
 	new_var->value = ft_strdup(value);
 	new_var->next = shell->l_envp;
 	shell->l_envp = new_var;
+	return (1);
 }
 
-void	handle_export_argument(t_minishell *shell, char *arg)
+void	handle_export_argument(t_minishell *shell, char **arg)
 {
+	char	*name;
+	char	*value;
 	char	*equal_sign;
 
-	equal_sign = ft_strchr(arg, '=');
+	equal_sign = ft_strchr(*arg, '=');
 	if (equal_sign != NULL)
 	{
+		name = ft_substr(*arg, 0, ft_strlen(*arg) - ft_strlen(equal_sign) + 1);
+		value = ft_substr(*arg, ft_strlen(*arg) - ft_strlen(equal_sign + 1),
+				ft_strlen(equal_sign) - 1);
+		equal_sign = handle_export_quotes(arg, &name, &value);
 		*equal_sign = '\0';
-		if (is_valid_var_name(arg))
-			add_or_update_env_var(shell, arg, equal_sign + 1);
-		else
-			ft_printf("export: `%s': not a valid identifier\n", arg);
-		*equal_sign = '=';
+		if (!is_valid_var_name(*arg)
+			|| !add_or_update_env_var(shell, *arg, equal_sign + 1))
+			ft_printf("export: `%s': not a valid identifier\n",*arg);
 	}
 	else
 	{
-		if (is_valid_var_name(arg))
-		{
-			if (!get_env_var(arg, shell->l_envp))
-				add_or_update_env_var(shell, arg, "");
-		}
-		else
-			ft_printf("export: `%s': not a valid identifier\n", arg);
+		if (!is_valid_var_name(*arg) || !(get_env_var(*arg, shell->l_envp)
+				|| add_or_update_env_var(shell, *arg, "")))
+			ft_printf("export: `%s': not a valid identifier\n", *arg);
 	}
 }
 
@@ -104,7 +91,7 @@ bool	ft_export(char **args, t_minishell *shell)
 	i = 1;
 	while (args[i] != NULL)
 	{
-		handle_export_argument(shell, args[i]);
+		handle_export_argument(shell, &args[i]);
 		i++;
 	}
 	return (true);

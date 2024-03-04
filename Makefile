@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/03/04 10:32:38 by matlopes         ###   ########.fr        #
+#    Updated: 2024/03/04 15:32:23 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS		= main.c \
 			  builtins/ft_env.c \
 			  builtins/ft_unset.c \
 			  builtins/ft_export.c \
+			  builtins/ft_export_aux.c \
 			  builtins/ft_exit.c \
 			  signals/signals.c \
 			  signals/signals_utils.c \
@@ -40,6 +41,7 @@ SRCS		= main.c \
 			  utils/free_utils.c \
 			  utils/ft_split_except.c \
 			  utils/ft_split_trim.c \
+			  utils/ft_split_quotes.c \
 			  init_shell.c \
 			  print_envp.c \
 			  display_prompt.c \

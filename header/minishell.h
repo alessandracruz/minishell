@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/04 12:38:18 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 15:28:01 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,10 @@ bool			ft_unset(char **args, t_minishell *shell);
 // FT_EXPORT
 
 bool			is_valid_var_name(char *name);
-void			add_or_update_env_var(t_minishell *shell, char *name,
+char			*handle_export_quotes(char **arg, char **name, char **value);
+int				add_or_update_env_var(t_minishell *shell, char *name,
 					char *value);
-void			handle_export_argument(t_minishell *shell, char *arg);
+void			handle_export_argument(t_minishell *shell, char **arg);
 void			list_environment_variables(t_minishell *shell);
 bool			ft_export(char **args, t_minishell *shell);
 
@@ -196,6 +197,7 @@ char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);
 char			**ft_split_except(char const *s, char c);
 char			**ft_split_trim(char const *s, char *c, char *set);
+char			**ft_split_quotes(char const *s);
 void			double_free(char *s1, char *s2);
 
 // EXPAND_VARIABLE
