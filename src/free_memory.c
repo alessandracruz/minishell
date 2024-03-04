@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_memory.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acastilh <acastilh@student.42.rio>         +#+  +:+       +#+        */
+/*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 14:53:20 by acastilh          #+#    #+#             */
-/*   Updated: 2023/11/23 23:05:25 by acastilh         ###   ########.fr       */
+/*   Updated: 2024/03/04 10:35:05 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,6 @@ void	free_redirection(t_redirection *redir)
 		free(redir->filename);
 		free(redir);
 	}
-}
-
-void	free_cmd_node(t_cmd_node *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (i < cmd->arg_count)
-	{
-		free(cmd->args[i]);
-		i++;
-	}
-	free_redirection(cmd->input_redirection);
-	free_redirection(cmd->output_redirection);
-	free(cmd);
 }
 
 void	free_env_list(t_envp *env_list)
@@ -54,11 +39,5 @@ void	free_env_list(t_envp *env_list)
 void	free_memory(t_minishell *shell)
 {
 	if (shell != NULL)
-	{
 		free_env_list(shell->l_envp);
-		if (shell->current_cmd != NULL)
-		{
-			free_cmd_node(shell->current_cmd);
-		}
-	}
 }

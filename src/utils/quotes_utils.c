@@ -6,9 +6,16 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 10:36:07 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/03 20:52:32 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 10:50:47 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+int	ft_is_quote(char c)
+{
+	if (c == 39 || c == 34)
+		return (1);
+	return (0);
+}
 
 int	ft_check_quote(char const *s)
 {
@@ -35,7 +42,7 @@ int	ft_check_inside_quotes(char const *s, int index)
 	check = -1;
 	while (++counter < index)
 	{
-		if (check == -1 && (s[counter] == 34 || s[counter] == 39))
+		if (check == -1 && ft_is_quote(s[counter]))
 		{
 			quote = s[counter];
 			check = counter;

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:43 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/03 22:18:17 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:20:30 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int	ft_check_execute(char **cmd, char *path, char **envp)
 
 	check = 1;
 	exit_status = 0;
-	if (!ft_strlen(cmd[0]) || !path || (access(path, F_OK | X_OK) != 0
+	if (!ft_strlen(cmd[0]) || !path || (access(path, F_OK | X_OK)
 			&& ft_strchr(cmd[0], '/')))
 	{
 		error = strerror(errno);
-		if (ft_strnstr(error, "denied", ft_strlen(error)) || !ft_strlen(cmd[0]))
+		if (ft_strnstr(error, "denied", ft_strlen(error)))
 			exit_status = EXIT_DENIED;
-		else if (!path && !ft_find_string("PATH", envp) && ft_strlen(cmd[0]))
+		else if (!ft_strlen(cmd[0]) || (!path && !ft_find_string("PATH", envp)))
 		{
 			cmd_print_error(cmd[--check], "No such file or directory");
 			exit_status = EXIT_NOTFOUND;
@@ -79,6 +79,25 @@ int	ft_check_execute(char **cmd, char *path, char **envp)
 	return (exit_status);
 }
 
+void	ft_check_cmd_quotes(char **cmd)
+{
+	int		i;
+	int		size;
+	char	*temp;
+
+	i = -1;
+	while (cmd[++i])
+	{
+		size = ft_strlen(cmd[i]);
+		if (ft_is_quote(cmd[i][0]) && ft_is_quote(cmd[i][size - 1]))
+		{
+			temp = cmd[i];
+			cmd[i] = ft_substr(cmd[i], 1, size - 2);
+			free(temp);
+		}
+	}
+}
+
 void	ft_execute_cmd(char *argv, t_minishell *shell)
 {
 	char	**cmd;
@@ -87,6 +106,7 @@ void	ft_execute_cmd(char *argv, t_minishell *shell)
 	int		exit_status;
 
 	cmd = ft_split_except(argv, ' ');
+	ft_check_cmd_quotes(cmd);
 	if (!execute_builtin(cmd, shell))
 	{
 		envp = get_envp(shell->l_envp);

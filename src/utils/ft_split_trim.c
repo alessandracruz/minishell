@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:41:41 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/03 20:51:07 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:41:24 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static int	ft_how_many_splits(char const *s, char *c)
 	counter = -1;
 	while (s[++counter])
 	{
-		if ((s[counter] == 34 || s[counter] == 39)
-			&& ft_check_quote(s + counter))
+		if (ft_is_quote(s[counter]) && ft_check_quote(s + counter))
 		{
 			if (!counter || ft_strchr(c, s[counter - 1]))
 				split++;
@@ -55,7 +54,7 @@ static int	ft_put_string(char **pointer, char const *s, char *c, char *set)
 		return (start);
 	while (s[start + size] != '\0' && !ft_strchr(c, s[start + size]))
 	{
-		if ((s[size] == 34 || s[size] == 39) && ft_check_quote(s + size) > 0)
+		if (ft_is_quote(s[size]) && ft_check_quote(s + size) > 0)
 			size += ft_check_quote(s + size) + 1;
 		else
 			size++;

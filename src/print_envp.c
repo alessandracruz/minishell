@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:54:46 by acastilh          #+#    #+#             */
-/*   Updated: 2024/01/16 11:55:44 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 10:35:39 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ void	print_envp(char **envp)
 	int	i;
 
 	i = 0;
-	while (envp[i] != NULL)
-	{
-		ft_printf("%s\n", envp[i]);
-		i++;
-	}
+	while (envp[i])
+		ft_printf("%s\n", envp[i++]);
 }

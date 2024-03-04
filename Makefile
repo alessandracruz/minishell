@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/03/03 22:36:26 by matlopes         ###   ########.fr        #
+#    Updated: 2024/03/04 10:32:38 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ SRCS		= main.c \
 			  builtins/ft_exit.c \
 			  signals/signals.c \
 			  signals/signals_utils.c \
-			  execute/heredoc.c \
-			  execute/redirects.c \
+			  redirects/heredoc.c \
+			  redirects/redirects.c \
 			  execute/execute_command.c \
 			  execute/execute_builtin.c \
 			  execute/pipex.c \

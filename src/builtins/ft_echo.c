@@ -6,49 +6,54 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:50:49 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/03 20:37:51 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:37:38 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	ft_printnv_quotes(char *str, int index, t_minishell *shell)
+{
+	if (str[index] == 34)
+		return (ft_printnv(str + index + 1, shell,
+				ft_check_quote(str + index) - 1, true) + 1);
+	else
+		return (ft_printnv(str + index + 1, shell,
+				ft_check_quote(str + index) - 1, false) + 1);
+}
+
+void	ft_printnv_check(char *str, int *index, t_minishell *shell)
+{
+	char	*var_value;
+
+	if (str[*index + 1] == '?')
+	{
+		ft_putnbr(shell->exit);
+		(*index)++;
+	}
+	else
+	{
+		var_value = expand_variable_in_quotes(str, shell, index);
+		(*index)--;
+		if (var_value)
+		{
+			ft_putstr(var_value);
+			free(var_value);
+		}
+	}
+}
+
 int	ft_printnv(char *str, t_minishell *shell, int size, bool check_env)
 {
 	int		index;
-	char	*var_value;
 
 	index = 0;
 	while (str[index] && index < size)
 	{
-		if (check_env && (str[index] == 34 || str[index] == 39)
-			&& ft_check_quote(str + index))
-		{
-			if (str[index] == 34)
-				index += ft_printnv(str + index + 1, shell,
-						ft_check_quote(str + index) - 1, true) + 1;
-			else
-				index += ft_printnv(str + index + 1, shell,
-						ft_check_quote(str + index) - 1, false) + 1;
-		}
+		if (check_env && ft_is_quote(str[index]) && ft_check_quote(str + index))
+			index += ft_printnv_quotes(str, index, shell);
 		else if (check_env && str[index] == '$')
-		{
-			if (str[index + 1] == '?')
-			{
-				ft_putnbr(shell->exit);
-				index++;
-			}
-			else
-			{
-				var_value = expand_variable_in_quotes(str, shell, &index);
-				index++;
-				if (var_value)
-				{
-					index += ft_strlen(var_value);
-					ft_putstr(var_value);
-					free(var_value);
-				}
-			}
-		}
+			ft_printnv_check(str, &index, shell);
 		else
 			ft_putchar(str[index]);
 		index++;

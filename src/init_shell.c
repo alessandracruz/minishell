@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/23 18:28:07 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/03 22:14:51 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 10:35:12 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	init_shell(t_minishell *shell, char **envp)
 
 	i = 0;
 	shell->l_envp = NULL;
-	shell->current_cmd = NULL;
 	shell->exit = EXIT_SUCCESS;
 	while (envp[i] != NULL)
 	{

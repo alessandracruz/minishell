@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/03 22:36:14 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:38:18 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,6 @@ typedef struct s_redirection
 	char	*filename;
 }	t_redirection;
 
-typedef struct cmd_node
-{
-	char			*command;
-	char			*args[MAX_ARGS];
-	int				arg_count;
-	t_redirection	*input_redirection;
-	t_redirection	*output_redirection;
-}	t_cmd_node;
-
 typedef struct s_get_file
 {
 	int		fd;
@@ -90,7 +81,6 @@ typedef struct s_execute
 typedef struct s_minishell
 {
 	t_envp		*l_envp;
-	t_cmd_node	*current_cmd;
 	int			exit;
 	int			heredoc_exit;
 }	t_minishell;
@@ -98,7 +88,6 @@ typedef struct s_minishell
 // SRC
 
 void			free_redirection(t_redirection *redir);
-void			free_cmd_node(t_cmd_node *cmd);
 void			free_env_list(t_envp *env_list);
 void			free_memory(t_minishell *shell);
 void			print_envp(char **envp);
@@ -112,20 +101,25 @@ int				print_error(const char *message, const char *error);
 
 int				main(int argc, char **argv, char **envp);
 
-// EXECUÇAÕ DE COMANDOS EXTERNOS: external_commands
+// REDIRECTS
 
 char			*heredoc(char *input, int index, t_execute *execute,
 					t_minishell *shell);
-bool			is_builtin(char *cmd);
 int				get_redirect_amount(char redirect, char *input);
-int				get_filein(char *input, t_execute *execute);
-int				get_fileout(char *input, t_execute *execute);
-bool			execute_builtin(char **args, t_minishell *shell);
+int				get_filein(char *input, t_execute *execute, t_minishell *shell);
+int				get_fileout(char *input, t_execute *execute,
+					t_minishell *shell);
+
+// EXECUTE
+
 void			execute_command(char **input, t_minishell *shell);
 void			ft_pipex(t_execute *execute, t_minishell *shell);
 void			ft_execute_cmd(char *argv, t_minishell *shell);
 
 // BUILTINS
+
+bool			is_builtin(char *cmd);
+bool			execute_builtin(char **args, t_minishell *shell);
 
 // FT_CD
 
@@ -141,6 +135,8 @@ char			*expand_tilde(char *path, t_minishell *shell);
 
 // FT_ECHO
 
+int				ft_printnv(char *str, t_minishell *shell, int size,
+					bool check_env);
 bool			ft_echo(char **args, t_minishell *shell);
 
 // FT_PWD
@@ -192,6 +188,7 @@ void			print_env_list(t_envp *env_list);
 char			**get_envp(t_envp *envp);
 bool			add_env_var(t_envp **env_list, const char *name,
 					const char *value);
+int				ft_is_quote(char c);
 int				ft_check_quote(char const *s);
 int				ft_check_inside_quotes(char const *s, int index);
 char			*ft_cutstr(char *str, int start, int len);
