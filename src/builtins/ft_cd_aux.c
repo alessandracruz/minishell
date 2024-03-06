@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 18:45:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 14:51:22 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 07:57:20 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_home_directory(t_minishell *shell)
 	if (home_env == NULL || home_env->value == NULL)
 		print_error("cd error", "HOME not set");
 	else
-		change_directory(home_env->value);
+		change_directory(home_env->value, shell);
 }
 
 void	handle_oldpwd_directory(t_minishell *shell)
@@ -33,7 +33,7 @@ void	handle_oldpwd_directory(t_minishell *shell)
 	else
 	{
 		ft_printf("%s\n", oldpwd_env->value);
-		change_directory(oldpwd_env->value);
+		change_directory(oldpwd_env->value, shell);
 	}
 }
 

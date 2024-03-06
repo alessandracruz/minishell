@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:45:06 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/04 15:27:44 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 09:29:03 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ bool	ft_export(char **args, t_minishell *shell)
 	i = 1;
 	while (args[i] != NULL)
 	{
+		if (!ft_strchr(args[i], '=') && args[i + 1] && args[i + 1][0] == '=')
+		{
+			ft_printf("export: `%s': not a valid identifier\n", args[i + 1]);
+			return (true);
+		}
 		handle_export_argument(shell, &args[i]);
 		i++;
 	}

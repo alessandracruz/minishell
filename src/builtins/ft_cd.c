@@ -6,16 +6,19 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 16:17:55 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/03 20:47:35 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 08:04:36 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	change_directory(const char *path)
+void	change_directory(const char *path, t_minishell *shell)
 {
 	if (chdir(path) == -1)
+	{
 		print_error("cd error", strerror(errno));
+		shell->builtin_exit = EXIT_FAILURE;
+	}
 }
 
 void	update_pwd_oldpwd(t_minishell *shell, char *old_dir)
@@ -48,7 +51,7 @@ bool	ft_cd(char **args, t_minishell *shell)
 	else
 	{
 		path_expanded = expand_tilde(args[1], shell);
-		change_directory(path_expanded);
+		change_directory(path_expanded, shell);
 		free(path_expanded);
 	}
 	update_pwd_oldpwd(shell, old_dir);

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/04 15:28:01 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 08:03:50 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_minishell
 {
 	t_envp		*l_envp;
 	int			exit;
+	int			builtin_exit;
 	int			heredoc_exit;
 }	t_minishell;
 
@@ -123,7 +124,7 @@ bool			execute_builtin(char **args, t_minishell *shell);
 
 // FT_CD
 
-void			change_directory(const char *path);
+void			change_directory(const char *path, t_minishell *shell);
 void			update_pwd_oldpwd(t_minishell *shell, char *old_dir);
 bool			ft_cd(char **args, t_minishell *shell);
 

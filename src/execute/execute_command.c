@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 19:41:27 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/04 12:17:30 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 08:04:24 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	execute_single_builtin(t_execute *execute, t_minishell *shell)
 	char		**cmd;
 	int			saved_stds[2];
 
+	shell->builtin_exit = EXIT_SUCCESS;
 	saved_stds[0] = dup(0);
 	saved_stds[1] = dup(1);
 	cmd = ft_split_except(execute->cmds[execute->amount - 1], ' ');
@@ -69,7 +70,8 @@ void	execute_single_builtin(t_execute *execute, t_minishell *shell)
 	free_arguments(cmd);
 	dup2(saved_stds[0], 0);
 	dup2(saved_stds[1], 1);
-	shell->exit = EXIT_SUCCESS;
+	if (shell->builtin_exit != EXIT_SUCCESS)
+		shell->exit = shell->builtin_exit;
 }
 
 void	execute_command_fork(char **input, t_execute *execute,

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:49:55 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/04 12:16:29 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 08:38:14 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	heredoc_inputs(char *eof, int fd[])
 	{
 		tmp = readline("> ");
 		line = ft_strjoin(tmp, "\n");
-		if (!ft_strcmp(eof, tmp))
+		if (!tmp || !ft_strcmp(eof, tmp))
 			break ;
 		write(fd[1], line, ft_strlen(line));
 		double_free(tmp, line);

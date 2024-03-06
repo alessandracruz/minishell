@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:50:49 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/04 12:37:38 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 09:32:27 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	ft_printnv(char *str, t_minishell *shell, int size, bool check_env)
 	{
 		if (check_env && ft_is_quote(str[index]) && ft_check_quote(str + index))
 			index += ft_printnv_quotes(str, index, shell);
-		else if (check_env && str[index] == '$')
+		else if (check_env && str[index] == '$'
+			&& str[index + 1] && str[index + 1] != ' ')
 			ft_printnv_check(str, &index, shell);
 		else
 			ft_putchar(str[index]);
