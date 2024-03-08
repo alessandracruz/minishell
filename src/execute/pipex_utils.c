@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 12:20:43 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/06 09:18:05 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:12:50 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	ft_check_cmd_quotes(char **cmd)
 	}
 }
 
-void	ft_execute_cmd(char *argv, t_minishell *shell)
+void	ft_execute_cmd(char *argv, t_execute *execute, t_minishell *shell)
 {
 	char	**cmd;
 	char	**envp;
@@ -106,6 +106,7 @@ void	ft_execute_cmd(char *argv, t_minishell *shell)
 	int		exit_status;
 
 	cmd = ft_split_except(argv, ' ');
+	free_cmds(&execute->cmds);
 	ft_check_cmd_quotes(cmd);
 	if (!execute_builtin(cmd, shell))
 	{

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:41:41 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/04 12:41:24 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:43:31 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	ft_put_string(char **pointer, char const *s, char *c, char *set)
 		start++;
 	if (!s[start])
 		return (start);
-	while (s[start + size] != '\0' && !ft_strchr(c, s[start + size]))
+	while (s[start + size] != '\0' && (!ft_strchr(c, s[start + size])
+		|| ft_check_inside_quotes(s, start + size) != -1))
 	{
 		if (ft_is_quote(s[size]) && ft_check_quote(s + size) > 0)
 			size += ft_check_quote(s + size) + 1;
