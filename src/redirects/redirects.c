@@ -6,131 +6,101 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 22:35:16 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/04 12:23:02 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 18:16:17 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_redirect_amount(char redirect, char *input)
+int	filein_open(t_cmd *cmd, t_get_file *get, t_minishell *shell)
 {
-	char	*temp;
-	int		index;
-	int		counter;
-
-	counter = -1;
-	index = 0;
-	while (ft_strchr(input + ++counter, redirect))
+	get->file = ft_substr(get->pointer, (get->start + get->check),
+			(get->counter - get->start) - get->check);
+	get->fd = open(get->file, O_RDONLY);
+	free(get->file);
+	if (get->fd == -1)
 	{
-		temp = ft_strchr(input + counter, redirect);
-		if (ft_check_inside_quotes(input,
-				ft_strlen(input) - ft_strlen(temp)) != -1)
-			counter = (ft_strlen(input) - ft_strlen(temp)) + 2;
-		else
-		{
-			counter = ft_strlen(input) - ft_strlen(temp);
-			if (temp[1] == redirect)
-				counter++;
-			index++;
-		}
+		shell->redirect_exit = EXIT_FAILURE;
+		print_error(get->file, strerror(errno));
+		return (0);
 	}
-	return (index);
-}
-
-int	get_filein_each(char *input, t_get_file *get, t_execute *execute)
-{
-	char	*file;
-
-	get->temp = ft_strchr(input + get->counter, '<');
-	if (ft_check_inside_quotes(input,
-			ft_strlen(input) - ft_strlen(get->temp)) != -1)
-		get->counter = (ft_strlen(input) - ft_strlen(get->temp)) + 1;
-	else
-	{
-		get->counter = ft_strlen(input) - ft_strlen(get->temp);
-		get->temp = execute->cmds[++get->index];
-		file = ft_substr(get->temp, 0, ft_strlen(get->temp)
-				- ft_strlen(ft_strchr(get->temp, ' ')));
-		get->fd = open(file, O_RDONLY);
-		if (get->fd == -1)
-			return (print_error(file, strerror(errno)));
-		if (get->check++)
-			close(execute->fd_files[0]);
-		execute->fd_files[0] = get->fd;
-		execute->cmds[get->index] = ft_substr(get->temp, ft_strlen(file) + 1,
-				ft_strlen(get->temp) - (ft_strlen(file) + 1));
-		double_free(get->temp, file);
-	}
-	return (0);
-}
-
-int	get_filein(char *input, t_execute *execute, t_minishell *shell)
-{
-	t_get_file	get;
-	int			redirects;
-
-	get.check = 0;
-	get.index = -1;
-	get.counter = -1;
-	redirects = get_redirect_amount('<', input);
-	if (redirects <= 1)
-		execute->current = -1;
-	else
-		execute->current = redirects - 2;
-	while (ft_strchr(input + ++get.counter, '<'))
-	{
-		if (get_filein_each(input, &get, execute) == -1)
-		{
-			shell->exit = 1;
-			return (0);
-		}
-	}
+	if (cmd->fd[0] != 0)
+		close(cmd->fd[0]);
+	cmd->fd[0] = get->fd;
 	return (1);
 }
 
-int	get_fileout_each(char *input, t_get_file *get, t_execute *execute)
-{
-	if (ft_check_inside_quotes(input, ft_strlen(input)
-			- ft_strlen(get->temp)) != -1)
-		get->counter = (ft_strlen(input) - ft_strlen(get->temp)) + 2;
-	else
-	{
-		get->counter = ft_strlen(input) - ft_strlen(get->temp);
-		if (get->temp[1] == '>')
-		{
-			get->counter++;
-			get->fd = open(execute->cmds[execute->amount + ++get->index],
-					O_CREAT | O_RDWR | O_APPEND, 00700);
-		}
-		else
-			get->fd = open(execute->cmds[execute->amount + ++get->index],
-					O_CREAT | O_RDWR | O_TRUNC, 00700);
-		if (get->fd == -1)
-			return (print_error(execute->cmds[execute->amount + get->index],
-					strerror(errno)));
-		if (get->check++)
-			close(execute->fd_files[1]);
-		execute->fd_files[1] = get->fd;
-	}
-	return (0);
-}
-
-int	get_fileout(char *input, t_execute *execute, t_minishell *shell)
+char	*filein(t_cmd *cmd, int index, t_minishell *shell)
 {
 	t_get_file	get;
 
+	get.counter = 1;
 	get.check = 0;
-	get.index = -1;
-	get.counter = -1;
-	execute->amount -= get_redirect_amount('>', input);
-	while (ft_strchr(input + ++get.counter, '>'))
+	get.pointer = ft_strchr(cmd->cmd + index, '<');
+	while (get.pointer[get.counter] == ' ')
+		get.counter++;
+	get.start = get.counter;
+	if (ft_is_quote(get.pointer[get.counter])
+		&& ft_check_quote(get.pointer + get.counter))
 	{
-		get.temp = ft_strchr(input + get.counter, '>');
-		if (get_fileout_each(input, &get, execute) == -1)
-		{
-			shell->exit = 1;
-			return (0);
-		}
+		get.check = 1;
+		get.counter += ft_check_quote(get.pointer + get.counter);
 	}
+	else
+		while (get.pointer[get.counter] && get.pointer[get.counter] != ' ')
+			get.counter++;
+	if (!filein_open(cmd, &get, shell))
+		return (NULL);
+	return (ft_cutstr(cmd->cmd, (ft_strlen(cmd->cmd) - ft_strlen(get.pointer)),
+			(get.counter + get.check)));
+}
+
+int	fileout_open(t_cmd *cmd, t_get_file *get, t_minishell *shell)
+{
+	get->file = ft_substr(get->pointer, (get->start + get->check),
+			(get->counter - get->start) - get->check);
+	if (get->pointer[1] == '>')
+	{
+		get->counter++;
+		get->fd = open(get->file, O_CREAT | O_RDWR | O_APPEND, 00700);
+	}
+	else
+		get->fd = open(get->file, O_CREAT | O_RDWR | O_TRUNC, 00700);
+	free(get->file);
+	if (get->fd == -1)
+	{
+		shell->redirect_exit = EXIT_FAILURE;
+		print_error(get->file, strerror(errno));
+		return (0);
+	}
+	if (cmd->fd[1] != 1)
+		close(cmd->fd[1]);
+	cmd->fd[1] = get->fd;
 	return (1);
+}
+
+char	*fileout(t_cmd *cmd, int index, t_minishell *shell)
+{
+	t_get_file	get;
+
+	get.counter = 1;
+	get.check = 0;
+	get.pointer = ft_strchr(cmd->cmd + index, '>');
+	while (get.pointer[get.counter] && (get.pointer[get.counter] == ' '
+			|| get.pointer[get.counter] == '>'))
+		get.counter++;
+	get.start = get.counter;
+	if (ft_is_quote(get.pointer[get.counter])
+		&& ft_check_quote(get.pointer + get.counter))
+	{
+		get.check = 1;
+		get.counter += ft_check_quote(get.pointer + get.counter);
+	}
+	else
+		while (get.pointer[get.counter] && get.pointer[get.counter] != ' ')
+			get.counter++;
+	if (!fileout_open(cmd, &get, shell))
+		return (NULL);
+	return (ft_cutstr(cmd->cmd, (ft_strlen(cmd->cmd) - ft_strlen(get.pointer)),
+			(get.counter + get.check)));
 }

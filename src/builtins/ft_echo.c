@@ -6,63 +6,13 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 14:50:49 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/06 09:32:27 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:38:59 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_printnv_quotes(char *str, int index, t_minishell *shell)
-{
-	if (str[index] == 34)
-		return (ft_printnv(str + index + 1, shell,
-				ft_check_quote(str + index) - 1, true) + 1);
-	else
-		return (ft_printnv(str + index + 1, shell,
-				ft_check_quote(str + index) - 1, false) + 1);
-}
-
-void	ft_printnv_check(char *str, int *index, t_minishell *shell)
-{
-	char	*var_value;
-
-	if (str[*index + 1] == '?')
-	{
-		ft_putnbr(shell->exit);
-		(*index)++;
-	}
-	else
-	{
-		var_value = expand_variable_in_quotes(str, shell, index);
-		(*index)--;
-		if (var_value)
-		{
-			ft_putstr(var_value);
-			free(var_value);
-		}
-	}
-}
-
-int	ft_printnv(char *str, t_minishell *shell, int size, bool check_env)
-{
-	int		index;
-
-	index = 0;
-	while (str[index] && index < size)
-	{
-		if (check_env && ft_is_quote(str[index]) && ft_check_quote(str + index))
-			index += ft_printnv_quotes(str, index, shell);
-		else if (check_env && str[index] == '$'
-			&& str[index + 1] && str[index + 1] != ' ')
-			ft_printnv_check(str, &index, shell);
-		else
-			ft_putchar(str[index]);
-		index++;
-	}
-	return (index);
-}
-
-bool	ft_echo(char **args, t_minishell *shell)
+bool	ft_echo(char **args)
 {
 	int	newline;
 	int	i;
@@ -76,7 +26,7 @@ bool	ft_echo(char **args, t_minishell *shell)
 	}
 	while (args[++i])
 	{
-		ft_printnv(args[i], shell, ft_strlen(args[i]), true);
+		ft_putstr(args[i]);
 		if (args[i + 1])
 			ft_putchar(' ');
 	}

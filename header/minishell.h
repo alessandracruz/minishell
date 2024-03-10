@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/06 08:03:50 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:45:29 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,45 @@ typedef struct s_redirection
 typedef struct s_get_file
 {
 	int		fd;
-	int		index;
+	int		start;
 	int		check;
-	char	*temp;
+	char	*file;
 	int		counter;
+	char	*pointer;
 }	t_get_file;
+
+typedef struct s_cmd
+{
+	char			*cmd;
+	int				index;
+	int				fd[2];
+	struct s_cmd	*next;
+}	t_cmd;
+
+typedef struct s_get_cmds
+{
+	int		i;
+	char	**cmds;
+	t_cmd	*move;
+	t_cmd	*start;
+}	t_get_cmds;
 
 typedef struct s_execute
 {
-	char	**cmds;
+	t_cmd	*cmds;
 	pid_t	*pids;
-	int		start;
+	int		fds[2];
 	int		current;
 	int		amount;
-	int		fd_files[2];
-	int		fds[2];
 }	t_execute;
 
 typedef struct s_minishell
 {
 	t_envp		*l_envp;
 	int			exit;
-	int			builtin_exit;
+	int			redirect_exit;
 	int			heredoc_exit;
+	int			builtin_exit;
 }	t_minishell;
 
 // SRC
@@ -104,18 +120,20 @@ int				main(int argc, char **argv, char **envp);
 
 // REDIRECTS
 
-char			*heredoc(char *input, int index, t_execute *execute,
-					t_minishell *shell);
+char			*heredoc(t_cmd *cmd, int index, t_minishell *shell);
 int				get_redirect_amount(char redirect, char *input);
-int				get_filein(char *input, t_execute *execute, t_minishell *shell);
-int				get_fileout(char *input, t_execute *execute,
-					t_minishell *shell);
+char			*filein(t_cmd *cmd, int index, t_minishell *shell);
+char			*fileout(t_cmd *cmd, int index, t_minishell *shell);
+int				get_redirect(char *find, char *(*f)(t_cmd*, int, t_minishell*),
+					t_cmd *cmd, t_minishell *shell);
 
 // EXECUTE
 
+int				get_cmds(char **input, t_execute *execute, t_minishell *shell);
 void			execute_command(char **input, t_minishell *shell);
 void			ft_pipex(t_execute *execute, t_minishell *shell);
-void			ft_execute_cmd(char *argv, t_minishell *shell);
+void			ft_execute_cmd(char *argv, t_execute *execute,
+					t_minishell *shell);
 
 // BUILTINS
 
@@ -137,8 +155,8 @@ char			*expand_tilde(char *path, t_minishell *shell);
 // FT_ECHO
 
 int				ft_printnv(char *str, t_minishell *shell, int size,
-					bool check_env);
-bool			ft_echo(char **args, t_minishell *shell);
+					int check_env);
+bool			ft_echo(char **args);
 
 // FT_PWD
 
@@ -193,6 +211,8 @@ bool			add_env_var(t_envp **env_list, const char *name,
 int				ft_is_quote(char c);
 int				ft_check_quote(char const *s);
 int				ft_check_inside_quotes(char const *s, int index);
+int				ft_check_inside_dquotes(char const *s, int index);
+int				ft_check_inside_squotes(char const *s, int index);
 char			*ft_cutstr(char *str, int start, int len);
 char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);
@@ -200,6 +220,7 @@ char			**ft_split_except(char const *s, char c);
 char			**ft_split_trim(char const *s, char *c, char *set);
 char			**ft_split_quotes(char const *s);
 void			double_free(char *s1, char *s2);
+int				free_cmds(t_cmd **cmds);
 
 // EXPAND_VARIABLE
 

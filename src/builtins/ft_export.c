@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:45:06 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/06 09:29:03 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:41:16 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ void	handle_export_argument(t_minishell *shell, char **arg)
 	equal_sign = ft_strchr(*arg, '=');
 	if (equal_sign != NULL)
 	{
+		if (!equal_sign[1])
+		{
+			add_or_update_env_var(shell, *arg, "");
+			return ;
+		}
 		name = ft_substr(*arg, 0, ft_strlen(*arg) - ft_strlen(equal_sign) + 1);
 		value = ft_substr(*arg, ft_strlen(*arg) - ft_strlen(equal_sign + 1),
 				ft_strlen(equal_sign) - 1);
@@ -57,11 +62,9 @@ void	handle_export_argument(t_minishell *shell, char **arg)
 			ft_printf("export: `%s': not a valid identifier\n",*arg);
 	}
 	else
-	{
 		if (!is_valid_var_name(*arg) || !(get_env_var(*arg, shell->l_envp)
 				|| add_or_update_env_var(shell, *arg, "")))
 			ft_printf("export: `%s': not a valid identifier\n", *arg);
-	}
 }
 
 void	list_environment_variables(t_minishell *shell)

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:49:55 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/06 08:38:14 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/06 10:33:34 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void	heredoc_inputs(char *eof, int fd[])
 	exit(EXIT_SUCCESS);
 }
 
-void	heredoc_init_inputs(char *eof, t_execute *execute, t_minishell *shell)
+void	heredoc_init_inputs(char *eof, t_cmd *cmd, t_minishell *shell)
 {
 	pid_t	pid;
 	int		fd[2];
 	int		status;
 
 	pipe(fd);
-	if (execute->fd_files[0] != 0)
-		close(execute->fd_files[0]);
-	execute->fd_files[0] = fd[0];
+	if (cmd->fd[0] != 0)
+		close(cmd->fd[0]);
+	cmd->fd[0] = fd[0];
 	pid = fork();
 	if (!pid)
 		heredoc_inputs(eof, fd);
@@ -54,7 +54,7 @@ void	heredoc_init_inputs(char *eof, t_execute *execute, t_minishell *shell)
 	free(eof);
 }
 
-char	*heredoc(char *input, int index, t_execute *execute, t_minishell *shell)
+char	*heredoc(t_cmd *cmd, int index, t_minishell *shell)
 {
 	char	*pointer;
 	int		start;
@@ -63,7 +63,7 @@ char	*heredoc(char *input, int index, t_execute *execute, t_minishell *shell)
 
 	counter = 2;
 	check = 0;
-	pointer = ft_strnstr(input + index, "<<", ft_strlen(input));
+	pointer = ft_strnstr(cmd->cmd + index, "<<", ft_strlen(cmd->cmd));
 	while (pointer[counter] == ' ')
 		counter++;
 	start = counter;
@@ -76,9 +76,9 @@ char	*heredoc(char *input, int index, t_execute *execute, t_minishell *shell)
 		while (pointer[counter] && pointer[counter] != ' ')
 			counter++;
 	heredoc_init_inputs(ft_substr(pointer, (start + check),
-			(counter - start) - check), execute, shell);
+			(counter - start) - check), cmd, shell);
 	if (shell->heredoc_exit)
 		return (NULL);
-	return (ft_cutstr(input, (ft_strlen(input) - ft_strlen(pointer)),
+	return (ft_cutstr(cmd->cmd, (ft_strlen(cmd->cmd) - ft_strlen(pointer)),
 			(counter + check)));
 }

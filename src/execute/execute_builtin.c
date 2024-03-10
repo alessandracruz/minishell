@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 18:32:33 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/01 14:42:24 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:39:08 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	execute_builtin(char **args, t_minishell *shell)
 	if (args == NULL || args[0] == NULL)
 		return (false);
 	if (!ft_strcmp(args[0], "echo"))
-		return (ft_echo(args, shell));
+		return (ft_echo(args));
 	if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(args, shell));
 	if (!ft_strcmp(args[0], "pwd"))

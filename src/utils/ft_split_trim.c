@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 09:41:41 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/04 12:41:24 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:36:47 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ static int	ft_how_many_splits(char const *s, char *c)
 	return (split);
 }
 
+static char	*ft_put_string_loop(char const *s, int *start, int *size, char *c)
+{
+	while (s[*start + *size] != '\0' && (!ft_strchr(c, s[*start + *size])
+			|| ft_check_inside_quotes(s, *start + *size) != -1))
+	{
+		if (ft_is_quote(s[*size]) && ft_check_quote(s + *size) > 0)
+			*size += ft_check_quote(s + *size) + 1;
+		else
+			(*size)++;
+	}
+	return (ft_substr(s, *start, *size));
+}
+
 static int	ft_put_string(char **pointer, char const *s, char *c, char *set)
 {
 	char	*temp;
@@ -52,14 +65,7 @@ static int	ft_put_string(char **pointer, char const *s, char *c, char *set)
 		start++;
 	if (!s[start])
 		return (start);
-	while (s[start + size] != '\0' && !ft_strchr(c, s[start + size]))
-	{
-		if (ft_is_quote(s[size]) && ft_check_quote(s + size) > 0)
-			size += ft_check_quote(s + size) + 1;
-		else
-			size++;
-	}
-	temp = ft_substr(s, start, size);
+	temp = ft_put_string_loop(s, &start, &size, c);
 	if (!temp)
 		return (-1);
 	*pointer = ft_strtrim(temp, set);

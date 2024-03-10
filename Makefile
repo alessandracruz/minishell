@@ -6,7 +6,7 @@
 #    By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 14:57:20 by acastilh          #+#    #+#              #
-#    Updated: 2024/03/04 15:32:23 by matlopes         ###   ########.fr        #
+#    Updated: 2024/03/10 16:22:12 by matlopes         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS		= main.c \
 			  signals/signals_utils.c \
 			  redirects/heredoc.c \
 			  redirects/redirects.c \
+			  execute/get_cmds.c \
 			  execute/execute_command.c \
 			  execute/execute_builtin.c \
 			  execute/pipex.c \
@@ -57,14 +58,14 @@ RM			= rm -f
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LOCLIBFT)/libft.a
-	gcc -o $(NAME) $(OBJS) -L$(LOCLIBFT) -lft -lreadline
+	gcc -g -o $(NAME) $(OBJS) -L$(LOCLIBFT) -lft -lreadline
 
 $(LOCLIBFT)/libft.a:
 	make -C $(LOCLIBFT)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(dir $@)
-	gcc -Wall -Wextra -Werror -I$(LOCLHEADER) -c $< -o $@
+	gcc -g -Wall -Wextra -Werror -I$(LOCLHEADER) -c $< -o $@
 
 clean:
 	make clean -C $(LOCLIBFT)
