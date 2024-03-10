@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 22:12:13 by matlopes          #+#    #+#             */
-/*   Updated: 2024/03/08 15:33:34 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:04:24 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	free_cmds(t_cmd **cmds)
 	{
 		pointer = cmd->next;
 		free(cmd->cmd);
-		free(cmd);
+		if (cmd)
+			free(cmd);
 		cmd = pointer;
 	}
 	return (-1);

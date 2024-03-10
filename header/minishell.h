@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:27:31 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/08 15:13:20 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 17:45:29 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ typedef struct s_redirection
 typedef struct s_get_file
 {
 	int		fd;
-	int		index;
+	int		start;
 	int		check;
-	char	*temp;
+	char	*file;
 	int		counter;
+	char	*pointer;
 }	t_get_file;
 
 typedef struct s_cmd
@@ -74,6 +75,14 @@ typedef struct s_cmd
 	int				fd[2];
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_get_cmds
+{
+	int		i;
+	char	**cmds;
+	t_cmd	*move;
+	t_cmd	*start;
+}	t_get_cmds;
 
 typedef struct s_execute
 {
@@ -115,12 +124,16 @@ char			*heredoc(t_cmd *cmd, int index, t_minishell *shell);
 int				get_redirect_amount(char redirect, char *input);
 char			*filein(t_cmd *cmd, int index, t_minishell *shell);
 char			*fileout(t_cmd *cmd, int index, t_minishell *shell);
+int				get_redirect(char *find, char *(*f)(t_cmd*, int, t_minishell*),
+					t_cmd *cmd, t_minishell *shell);
 
 // EXECUTE
 
+int				get_cmds(char **input, t_execute *execute, t_minishell *shell);
 void			execute_command(char **input, t_minishell *shell);
 void			ft_pipex(t_execute *execute, t_minishell *shell);
-void			ft_execute_cmd(char *argv, t_execute *execute, t_minishell *shell);
+void			ft_execute_cmd(char *argv, t_execute *execute,
+					t_minishell *shell);
 
 // BUILTINS
 
@@ -143,7 +156,7 @@ char			*expand_tilde(char *path, t_minishell *shell);
 
 int				ft_printnv(char *str, t_minishell *shell, int size,
 					int check_env);
-bool			ft_echo(char **args, t_minishell *shell);
+bool			ft_echo(char **args);
 
 // FT_PWD
 
@@ -198,6 +211,8 @@ bool			add_env_var(t_envp **env_list, const char *name,
 int				ft_is_quote(char c);
 int				ft_check_quote(char const *s);
 int				ft_check_inside_quotes(char const *s, int index);
+int				ft_check_inside_dquotes(char const *s, int index);
+int				ft_check_inside_squotes(char const *s, int index);
 char			*ft_cutstr(char *str, int start, int len);
 char			*join_string_and_free(char *s1, char *s2);
 char			*add_char_to_result(char *result, char c);

@@ -6,7 +6,7 @@
 /*   By: matlopes <matlopes@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 19:45:06 by acastilh          #+#    #+#             */
-/*   Updated: 2024/03/06 13:56:17 by matlopes         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:41:16 by matlopes         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,9 @@ void	handle_export_argument(t_minishell *shell, char **arg)
 			ft_printf("export: `%s': not a valid identifier\n",*arg);
 	}
 	else
-	{
 		if (!is_valid_var_name(*arg) || !(get_env_var(*arg, shell->l_envp)
 				|| add_or_update_env_var(shell, *arg, "")))
 			ft_printf("export: `%s': not a valid identifier\n", *arg);
-	}
 }
 
 void	list_environment_variables(t_minishell *shell)
